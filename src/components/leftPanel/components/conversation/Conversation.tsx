@@ -1,24 +1,33 @@
 "use client";
 
-import { useConversationStore } from "@/components/store/chat-store";
+import {
+  IConversation,
+  useConversationStore,
+} from "@/components/store/chat-store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useQuery } from "convex/react";
 import { format } from "date-fns";
-import { ImageIcon, Users, VideoIcon } from "lucide-react";
+import { ImageIcon, VideoIcon } from "lucide-react";
+import { api } from "../../../../../convex/_generated/api";
 
-const Conversation = ({ conversation }: { conversation: any }) => {
+const Conversation = ({ conversation }: { conversation: IConversation }) => {
   const conversationImage = conversation.groupImage || conversation.image;
   const conversationName = conversation.groupName || conversation.name;
   const lastMessage = conversation.lastMessage;
   const lastMessageType = lastMessage?.messageType;
 
+  const currentUser = useQuery(api.users.getMe);
+  const { selectedConversation, setSelectedConversation } =
+    useConversationStore();
+
+  const senderName =
+    lastMessage?.senderName === currentUser?.name
+      ? "You"
+      : lastMessage?.senderName.trim();
+
   const formatTime = (timeStamp: number) => {
     return format(timeStamp, "HH:mm");
   };
-
-  // const currentUser = useQuery(api.users.getMe);
-
-  const { selectedConversation, setSelectedConversation } =
-    useConversationStore();
   const activeBgClass = selectedConversation?._id === conversation._id;
 
   return (
@@ -52,14 +61,17 @@ const Conversation = ({ conversation }: { conversation: any }) => {
           <p
             className={`text-[12px] mt-1 flex items-center gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}
           >
-            {/* {lastMessage?.sender === currentUser?._id ? <SuccessSvg /> : ""} */}
-            {conversation.isGroup && <Users size={16} />}
             {!lastMessage && "Say Hi!"}
-            {lastMessageType === "text" && (
-              <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                {lastMessage?.content}
-              </span>
-            )}
+            {lastMessageType === "text" &&
+              (conversation.isGroup ? (
+                <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                  {senderName}: {lastMessage?.content}
+                </span>
+              ) : (
+                <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                  {lastMessage?.content}
+                </span>
+              ))}
             {lastMessageType === "image" && <ImageIcon size={16} />}
             {lastMessageType === "video" && <VideoIcon size={16} />}
           </p>

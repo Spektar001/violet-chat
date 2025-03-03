@@ -111,6 +111,7 @@ const UserListDialog = () => {
           : users?.find((user) => user._id === selectedUsers[0])?.image,
         name: conversationName,
         admin: currentUser!._id,
+        _creationTime: Number(new Date()),
       });
       return conversationId;
     } catch (error) {

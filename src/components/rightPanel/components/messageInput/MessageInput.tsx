@@ -24,6 +24,7 @@ const MessageInput = () => {
         content: msgText,
         conversationId: selectedConversation!._id,
         sender: currentUser!._id,
+        senderName: currentUser?.name || "",
       });
       setMsgText("");
     } catch (error) {

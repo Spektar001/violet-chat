@@ -41,9 +41,7 @@ const MediaDropdown = () => {
   const handleSendImage = async () => {
     setIsLoading(true);
     try {
-      // Step 1: Get a short-lived upload URL
       const postUrl = await generateUploadUrl();
-      // Step 2: POST the file to the URL
       const result = await fetch(postUrl, {
         method: "POST",
         headers: { "Content-Type": selectedImage!.type },
@@ -51,11 +49,11 @@ const MediaDropdown = () => {
       });
 
       const { storageId } = await result.json();
-      // Step 3: Save the newly allocated storage id to the database
       await sendImage({
         conversationId: selectedConversation!._id,
         imgId: storageId,
         sender: currentUser!._id,
+        senderName: currentUser?.name || "",
       });
 
       setSelectedImage(null);
@@ -84,6 +82,7 @@ const MediaDropdown = () => {
         videoId: storageId,
         conversationId: selectedConversation!._id,
         sender: currentUser!._id,
+        senderName: currentUser?.name || "",
       });
 
       setSelectedVideo(null);

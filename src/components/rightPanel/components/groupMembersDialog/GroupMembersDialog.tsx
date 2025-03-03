@@ -1,6 +1,6 @@
 "use client";
 
-import { Conversation } from "@/components/store/chat-store";
+import { IConversation } from "@/components/store/chat-store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 
 type GroupMembersDialogProps = {
-  selectedConversation: Conversation;
+  selectedConversation: IConversation;
 };
 
 const GroupMembersDialog = ({

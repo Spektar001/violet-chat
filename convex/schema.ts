@@ -21,6 +21,7 @@ export default defineSchema({
   messages: defineTable({
     conversationId: v.id("conversations"),
     sender: v.string(),
+    senderName: v.string(),
     content: v.string(),
     messageType: v.union(
       v.literal("text"),

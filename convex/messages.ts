@@ -5,6 +5,7 @@ export const sendTextMessages = mutation({
   args: {
     conversationId: v.id("conversations"),
     sender: v.string(),
+    senderName: v.string(),
     content: v.string(),
   },
   handler: async (ctx, args) => {
@@ -39,6 +40,7 @@ export const sendTextMessages = mutation({
     await ctx.db.insert("messages", {
       conversationId: args.conversationId,
       sender: args.sender,
+      senderName: args.senderName,
       content: args.content,
       messageType: "text",
     });
@@ -92,6 +94,7 @@ export const sendImage = mutation({
   args: {
     imgId: v.id("_storage"),
     sender: v.id("users"),
+    senderName: v.string(),
     conversationId: v.id("conversations"),
   },
   handler: async (ctx, args) => {
@@ -105,6 +108,7 @@ export const sendImage = mutation({
     await ctx.db.insert("messages", {
       content: content,
       sender: args.sender,
+      senderName: args.senderName,
       messageType: "image",
       conversationId: args.conversationId,
     });
@@ -115,6 +119,7 @@ export const sendVideo = mutation({
   args: {
     videoId: v.id("_storage"),
     sender: v.id("users"),
+    senderName: v.string(),
     conversationId: v.id("conversations"),
   },
   handler: async (ctx, args) => {
@@ -128,6 +133,7 @@ export const sendVideo = mutation({
     await ctx.db.insert("messages", {
       content: content,
       sender: args.sender,
+      senderName: args.senderName,
       messageType: "video",
       conversationId: args.conversationId,
     });
