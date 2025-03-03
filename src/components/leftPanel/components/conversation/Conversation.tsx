@@ -24,7 +24,7 @@ const Conversation = ({ conversation }: { conversation: any }) => {
   return (
     <>
       <div
-        className={`flex gap-2 items-center p-3 rounded-2xl duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-300"} `}
+        className={`flex gap-2 items-center p-3 rounded-2xl duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100"} `}
         onClick={() => setSelectedConversation(conversation)}
       >
         <Avatar className="overflow-visible relative">
