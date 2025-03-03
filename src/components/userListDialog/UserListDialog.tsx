@@ -23,6 +23,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 const UserListDialog = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
   const [groupName, setGroupName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,20 @@ const UserListDialog = () => {
   const users = useQuery(api.users.getUsers);
 
   const { setSelectedConversation } = useConversationStore();
+
+  const handleDialogClose = () => {
+    setSelectedUsers([]);
+    setGroupName("");
+    setSelectedImage(null);
+    setRenderedImage("");
+  };
+
+  useEffect(() => {
+    if (selectedUsers.length < 2) {
+      setGroupName("");
+      setSelectedImage(null);
+    }
+  }, [selectedUsers]);
 
   useEffect(() => {
     if (!selectedImage) return setRenderedImage("");
@@ -108,7 +123,13 @@ const UserListDialog = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        if (!open) handleDialogClose();
+      }}
+    >
       <DialogTrigger>
         <MessageSquare />
       </DialogTrigger>
@@ -124,7 +145,7 @@ const UserListDialog = () => {
               src={renderedImage}
               fill
               alt="user image"
-              className="rounded-full object-cover"
+              className="rounded-full object-cover border border-violet-500"
             />
           </div>
         )}
@@ -156,7 +177,7 @@ const UserListDialog = () => {
           {users?.map((user) => (
             <div
               key={user._id}
-              className={`flex gap-3 items-center p-2 rounded cursor-pointer active:scale-95 transition-all ease-in-out duration-300 ${selectedUsers.includes(user._id) ? "bg-[#AF57DB] text-white" : "hover:bg-violet-300"}`}
+              className={`flex gap-3 items-center p-2 rounded-2xl cursor-pointer active:scale-95 transition-all ease-in-out duration-300 ${selectedUsers.includes(user._id) ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100"}`}
               onClick={() => {
                 if (selectedUsers.includes(user._id)) {
                   setSelectedUsers(
@@ -168,10 +189,6 @@ const UserListDialog = () => {
               }}
             >
               <Avatar className="overflow-visible">
-                {user.isOnline && (
-                  <div className="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-white" />
-                )}
-
                 <AvatarImage
                   src={user.image}
                   className="rounded-full object-cover"
@@ -201,7 +218,8 @@ const UserListDialog = () => {
           <Button
             disabled={
               selectedUsers.length === 0 ||
-              (selectedUsers.length > 1 && !groupName.trim()) ||
+              (selectedUsers.length > 1 &&
+                (!groupName.trim() || !selectedImage)) ||
               isLoading
             }
             onClick={handleCreateConversation}
