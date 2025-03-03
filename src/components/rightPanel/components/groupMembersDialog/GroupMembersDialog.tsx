@@ -3,13 +3,10 @@
 import { Conversation } from "@/components/store/chat-store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 
@@ -25,49 +22,44 @@ const GroupMembersDialog = ({
   });
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        <p className="text-sm text-muted-foreground text-left">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <p className="text-sm text-muted-foreground text-left cursor-pointer">
           {users?.length} members
         </p>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="my-2">Current Members</DialogTitle>
-          <DialogDescription>
-            <div className="flex flex-col gap-3">
-              {users?.map((user) => (
-                <div
-                  key={user._id}
-                  className={`flex gap-3 items-center p-2 rounded-2xl duration-300 hover:bg-violet-300`}
-                >
-                  <Avatar className="overflow-visible">
-                    <AvatarImage
-                      src={user.image}
-                      className="rounded-full object-cover"
-                    />
-                    <AvatarFallback>
-                      <div className="animate-pulse bg-gray-tertiary w-full h-full rounded-full"></div>
-                    </AvatarFallback>
-                  </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="min-w-[300px]" align="start">
+        <div className="flex flex-col">
+          {users?.map((user) => (
+            <div
+              key={user._id}
+              className={`flex gap-3 items-center p-2 rounded-2xl duration-300 hover:bg-violet-100`}
+            >
+              <Avatar className="overflow-visible">
+                <AvatarImage
+                  src={user.image}
+                  className="rounded-full object-cover"
+                />
+                <AvatarFallback>
+                  <div className="animate-pulse bg-gray-tertiary w-full h-full rounded-full"></div>
+                </AvatarFallback>
+              </Avatar>
 
-                  <div className="w-full flex items-center gap-2">
-                    <div className="w-[90%] flex items-center justify-between">
-                      <h3 className="font-medium">
-                        {user.name || user.email.split("@")[0]}
-                      </h3>
-                      {user._id === selectedConversation.admin && (
-                        <span>owner</span>
-                      )}
-                    </div>
-                  </div>
+              <div className="w-full flex items-center gap-2">
+                <div className="w-[90%] flex items-center justify-between">
+                  <span className="font-medium text-ellipsis text-nowrap overflow-hidden">
+                    {user.name || user.email.split("@")[0]}
+                  </span>
+                  {user._id === selectedConversation.admin && (
+                    <span className="text-violet-900">Owner</span>
+                  )}
                 </div>
-              ))}
+              </div>
             </div>
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+          ))}
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 export default GroupMembersDialog;
