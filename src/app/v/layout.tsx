@@ -1,11 +1,16 @@
 import LeftPanel from "@/components/leftPanel/LeftPanel";
-import RightPanel from "@/components/rightPanel/RightPanel";
 
-export default function Home() {
+const Layout = ({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) => {
   return (
     <main className="h-screen w-full overflow-hidden flex">
       <LeftPanel />
-      <RightPanel />
+      {children}
     </main>
   );
-}
+};
+
+export default Layout;

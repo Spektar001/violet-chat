@@ -1,6 +1,6 @@
 "use client";
 
-import { IMessage, useConversationStore } from "@/components/store/chat-store";
+import { IConversation, IMessage } from "@/components/store/chat-store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
@@ -20,15 +20,16 @@ type ChatBubbleProps = {
   message: IMessage;
   currentUser: any;
   previousMessage?: IMessage;
+  selectedConversation: IConversation;
 };
 
 const ChatBubble = ({
   currentUser,
   message,
+  selectedConversation,
   previousMessage,
 }: ChatBubbleProps) => {
   const [open, setOpen] = useState(false);
-  const { selectedConversation } = useConversationStore();
   const fromMe = message.sender?._id === currentUser._id;
   const isGroup = selectedConversation?.isGroup;
 

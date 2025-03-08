@@ -1,13 +1,16 @@
 "use client";
 
-import { useConversationStore } from "@/components/store/chat-store";
+import { IConversation } from "@/components/store/chat-store";
 import { useQuery } from "convex/react";
 import { useEffect, useRef } from "react";
 import { api } from "../../../../../convex/_generated/api";
 import ChatBubble from "../chatBubble/ChatBubble";
 
-const MessageContainer = () => {
-  const { selectedConversation } = useConversationStore();
+type MessageContainerProps = {
+  selectedConversation: IConversation;
+};
+
+const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
   const lastMessageRef = useRef<HTMLDivElement>(null);
 
   const messages = useQuery(api.messages.getMessages, {
@@ -30,6 +33,7 @@ const MessageContainer = () => {
               message={message}
               currentUser={currentUser}
               previousMessage={idx > 0 ? messages[idx - 1] : undefined}
+              selectedConversation={selectedConversation}
             />
           </div>
         ))}

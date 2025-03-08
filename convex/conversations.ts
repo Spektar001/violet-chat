@@ -3,6 +3,7 @@ import { mutation, query } from "./_generated/server";
 
 export const createConversation = mutation({
   args: {
+    participantName: v.optional(v.string()),
     participants: v.array(v.id("users")),
     isGroup: v.boolean(),
     groupName: v.optional(v.string()),
@@ -41,6 +42,7 @@ export const createConversation = mutation({
     }
 
     const converstionId = await ctx.db.insert("conversations", {
+      participantName: args.participantName,
       participants: args.participants,
       isGroup: args.isGroup,
       groupName: args.groupName,

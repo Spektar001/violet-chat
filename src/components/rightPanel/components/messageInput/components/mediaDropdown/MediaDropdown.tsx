@@ -1,6 +1,5 @@
 "use client";
 
-import { useConversationStore } from "@/components/store/chat-store";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,8 +22,13 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import ReactPlayer from "react-player";
 import { api } from "../../../../../../../convex/_generated/api";
+import { Id } from "../../../../../../../convex/_generated/dataModel";
 
-const MediaDropdown = () => {
+type MediaDropdownProps = {
+  conversationId: Id<"conversations">;
+};
+
+const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
   const imageInput = useRef<HTMLInputElement>(null);
   const videoInput = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -35,8 +39,6 @@ const MediaDropdown = () => {
   const sendImage = useMutation(api.messages.sendImage);
   const sendVideo = useMutation(api.messages.sendVideo);
   const currentUser = useQuery(api.users.getMe);
-
-  const { selectedConversation } = useConversationStore();
 
   const handleSendImage = async () => {
     setIsLoading(true);
@@ -50,7 +52,7 @@ const MediaDropdown = () => {
 
       const { storageId } = await result.json();
       await sendImage({
-        conversationId: selectedConversation!._id,
+        conversationId: conversationId,
         imgId: storageId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
@@ -80,7 +82,7 @@ const MediaDropdown = () => {
 
       await sendVideo({
         videoId: storageId,
-        conversationId: selectedConversation!._id,
+        conversationId: conversationId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
       });

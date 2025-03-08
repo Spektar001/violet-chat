@@ -1,6 +1,6 @@
 "use client";
 
-import { useConversationStore } from "@/components/store/chat-store";
+import { IConversation } from "@/components/store/chat-store";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
@@ -11,11 +11,14 @@ import TextareaAutosize from "react-textarea-autosize";
 import { api } from "../../../../../convex/_generated/api";
 import MediaDropdown from "./components/mediaDropdown/MediaDropdown";
 
-const MessageInput = () => {
+type MessageInputProps = {
+  selectedConversation: IConversation;
+};
+
+const MessageInput = ({ selectedConversation }: MessageInputProps) => {
   const [msgText, setMsgText] = useState("");
   const sendTextMsg = useMutation(api.messages.sendTextMessages);
   const currentUser = useQuery(api.users.getMe);
-  const { selectedConversation } = useConversationStore();
 
   const handleSendTextMsg = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +41,7 @@ const MessageInput = () => {
     <div className="py-3 px-5 border-t flex gap-3">
       <div className="flex items-end gap-3 mb-2">
         <Smile />
-        <MediaDropdown />
+        <MediaDropdown conversationId={selectedConversation._id} />
       </div>
       <form onSubmit={handleSendTextMsg} className="w-full flex gap-3">
         <div className="space-y-2 h-full w-full">

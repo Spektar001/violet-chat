@@ -11,6 +11,7 @@ export default defineSchema({
   }).index("by_tokenIdentifier", ["tokenIdentifier"]),
 
   conversations: defineTable({
+    participantName: v.optional(v.string()),
     participants: v.array(v.id("users")),
     isGroup: v.boolean(),
     groupName: v.optional(v.string()),

@@ -1,12 +1,15 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import {
   EllipsisVertical,
   Eraser,
   SlidersHorizontal,
   Trash,
 } from "lucide-react";
-import { useConversationStore } from "../store/chat-store";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
+import LoadingLogo from "../LoadingLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -14,20 +17,27 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import ChatPlaceHolder from "./components/chatPlaceHolder/ChatPlaceHolder";
 import GroupMembersDialog from "./components/groupMembersDialog/GroupMembersDialog";
 import MessageContainer from "./components/messageContainer/MessageContainer";
 import MessageInput from "./components/messageInput/MessageInput";
 
-const RightPanel = () => {
-  const { selectedConversation } = useConversationStore();
+type RightPanelProps = {
+  conversationId: Id<"conversations">;
+};
 
-  if (!selectedConversation) return <ChatPlaceHolder />;
+const RightPanel = ({ conversationId }: RightPanelProps) => {
+  const conversation = useQuery(api.conversation.getConversationById, {
+    id: conversationId,
+  });
+
+  if (!conversation) {
+    return <LoadingLogo />;
+  }
 
   const conversationName =
-    selectedConversation.name || selectedConversation.groupName;
+    conversation?.participantName || conversation?.groupName;
   const conversationImage =
-    selectedConversation.image || selectedConversation.groupImage;
+    conversation?.otherUser?.image || conversation?.groupImage;
 
   return (
     <div className="w-3/4 h-full flex flex-col">
@@ -44,8 +54,8 @@ const RightPanel = () => {
           </Avatar>
           <div className="flex flex-col">
             <p>{conversationName}</p>
-            {selectedConversation.isGroup && (
-              <GroupMembersDialog selectedConversation={selectedConversation} />
+            {conversation?.isGroup && (
+              <GroupMembersDialog selectedConversation={conversation} />
             )}
           </div>
         </div>
@@ -69,8 +79,8 @@ const RightPanel = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <MessageContainer />
-      <MessageInput />
+      <MessageContainer selectedConversation={conversation} />
+      <MessageInput selectedConversation={conversation} />
     </div>
   );
 };

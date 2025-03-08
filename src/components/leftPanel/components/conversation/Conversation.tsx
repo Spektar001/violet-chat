@@ -1,24 +1,25 @@
 "use client";
 
-import {
-  IConversation,
-  useConversationStore,
-} from "@/components/store/chat-store";
+import { IConversation } from "@/components/store/chat-store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery } from "convex/react";
 import { format } from "date-fns";
 import { ImageIcon, VideoIcon } from "lucide-react";
+import Link from "next/link";
 import { api } from "../../../../../convex/_generated/api";
 
-const Conversation = ({ conversation }: { conversation: IConversation }) => {
+type ConversationProps = {
+  pathname: string;
+  conversation: IConversation;
+};
+
+const Conversation = ({ pathname, conversation }: ConversationProps) => {
   const conversationImage = conversation.groupImage || conversation.image;
   const conversationName = conversation.groupName || conversation.name;
   const lastMessage = conversation.lastMessage;
   const lastMessageType = lastMessage?.messageType;
 
   const currentUser = useQuery(api.users.getMe);
-  const { selectedConversation, setSelectedConversation } =
-    useConversationStore();
 
   const senderName =
     lastMessage?.senderName === currentUser?.name
@@ -28,13 +29,14 @@ const Conversation = ({ conversation }: { conversation: IConversation }) => {
   const formatTime = (timeStamp: number) => {
     return format(timeStamp, "HH:mm");
   };
-  const activeBgClass = selectedConversation?._id === conversation._id;
+
+  const activeBgClass = conversation._id === pathname;
 
   return (
-    <>
+    <Link href={`/v/${conversation._id}`}>
       <div
         className={`flex gap-2 items-center p-3 rounded-2xl duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100"} `}
-        onClick={() => setSelectedConversation(conversation)}
+        // onClick={() => }
       >
         <Avatar className="overflow-visible relative">
           <AvatarImage
@@ -77,7 +79,7 @@ const Conversation = ({ conversation }: { conversation: IConversation }) => {
           </p>
         </div>
       </div>
-    </>
+    </Link>
   );
 };
 

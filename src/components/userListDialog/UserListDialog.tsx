@@ -17,7 +17,6 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
-import { useConversationStore } from "../store/chat-store";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -37,8 +36,6 @@ const UserListDialog = () => {
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const currentUser = useQuery(api.users.getMe);
   const users = useQuery(api.users.getUsers);
-
-  const { setSelectedConversation } = useConversationStore();
 
   const handleDialogClose = () => {
     setSelectedUsers([]);
@@ -73,6 +70,8 @@ const UserListDialog = () => {
       let conversationId;
       if (!isGroup) {
         conversationId = await createConversation({
+          participantName: users?.find((user) => user._id === selectedUsers[0])
+            ?.name,
           participants: [...selectedUsers, currentUser!._id],
           isGroup: false,
         });
@@ -98,21 +97,6 @@ const UserListDialog = () => {
       setGroupName("");
       setSelectedImage(null);
 
-      const conversationName = isGroup
-        ? groupName
-        : users?.find((user) => user._id === selectedUsers[0])?.name;
-
-      setSelectedConversation({
-        _id: conversationId,
-        participants: selectedUsers,
-        isGroup,
-        image: isGroup
-          ? renderedImage
-          : users?.find((user) => user._id === selectedUsers[0])?.image,
-        name: conversationName,
-        admin: currentUser!._id,
-        _creationTime: Number(new Date()),
-      });
       return conversationId;
     } catch (error) {
       toast.error(
