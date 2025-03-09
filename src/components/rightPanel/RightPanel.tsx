@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
-import LoadingLogo from "../LoadingLogo";
+import RightPanelFallback from "../RightPanelFallback";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -31,7 +31,7 @@ const RightPanel = ({ conversationId }: RightPanelProps) => {
   });
 
   if (!conversation) {
-    return <LoadingLogo />;
+    return <RightPanelFallback />;
   }
 
   const conversationName =
