@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation } from "@/components/store/chat-store";
+import { IConversation } from "@/components/types/types";
 import { useQuery } from "convex/react";
 import { useEffect, useRef } from "react";
 import { api } from "../../../../../convex/_generated/api";

@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation } from "@/components/store/chat-store";
+import { IConversation } from "@/components/types/types";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";

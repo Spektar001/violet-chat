@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation, IMessage } from "@/components/store/chat-store";
+import { IConversation, IMessage } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
