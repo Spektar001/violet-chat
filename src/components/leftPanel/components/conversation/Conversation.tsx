@@ -4,8 +4,9 @@ import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery } from "convex/react";
 import { format } from "date-fns";
-import { ImageIcon, VideoIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import ReactPlayer from "react-player";
 import { api } from "../../../../../convex/_generated/api";
 
 type ConversationProps = {
@@ -17,7 +18,8 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
   const conversationImage = conversation.groupImage || conversation.image;
   const conversationName = conversation.groupName || conversation.name;
   const lastMessage = conversation.lastMessage;
-  const lastMessageType = lastMessage?.messageType;
+  const lastMessageType = lastMessage?.messageType.split("/")[0];
+  const imageType = lastMessage?.messageType.split("/")[1];
 
   const currentUser = useQuery(api.users.getMe);
 
@@ -35,8 +37,7 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
   return (
     <Link href={`/v/${conversation._id}`}>
       <div
-        className={`flex gap-2 items-center p-3 rounded-2xl duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100"} `}
-        // onClick={() => }
+        className={`flex gap-2 items-start p-3 rounded-2xl duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100 dark:hover:bg-white/10"} `}
       >
         <Avatar className="overflow-visible relative">
           <AvatarImage
@@ -63,7 +64,6 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
           <p
             className={`text-[12px] mt-1 flex items-center gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}
           >
-            {!lastMessage && "Say Hi!"}
             {lastMessageType === "text" &&
               (conversation.isGroup ? (
                 <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
@@ -74,8 +74,64 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
                   {lastMessage?.content}
                 </span>
               ))}
-            {lastMessageType === "image" && <ImageIcon size={16} />}
-            {lastMessageType === "video" && <VideoIcon size={16} />}
+            {lastMessageType === "image" &&
+              imageType !== "gif" &&
+              (conversation.isGroup ? (
+                <>
+                  {senderName}:{" "}
+                  <Image
+                    className="rounded-sm h-5"
+                    src={lastMessage?.content || ""}
+                    width={20}
+                    height={25}
+                    alt={"image"}
+                  />
+                </>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <Image
+                    className="rounded-sm h-5"
+                    src={lastMessage?.content || ""}
+                    width={20}
+                    height={25}
+                    alt={"image"}
+                  />
+                  Photo
+                </span>
+              ))}
+            {!conversation.isGroup && imageType === "gif" && (
+              <span className="uppercase">GIF</span>
+            )}
+            {imageType === "gif" && conversation.isGroup && (
+              <>
+                {senderName}: <span className="uppercase">GIF</span>
+              </>
+            )}
+            {lastMessageType === "video"&& conversation.isGroup && (
+              <>
+                {senderName}:{" "}
+                <ReactPlayer
+                  url={lastMessage?.content}
+                  width="30px"
+                  height="20px"
+                  controls={false}
+                  light={false}
+                />
+                Video
+              </>
+            )}
+            {!conversation.isGroup && lastMessageType === "video" && (
+              <>
+                <ReactPlayer
+                  url={lastMessage?.content}
+                  width="30px"
+                  height="20px"
+                  controls={false}
+                  light={false}
+                />
+                Video
+              </>
+            )}
           </p>
         </div>
       </div>

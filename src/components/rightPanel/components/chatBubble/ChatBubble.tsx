@@ -32,14 +32,15 @@ const ChatBubble = ({
   const [open, setOpen] = useState(false);
   const fromMe = message.sender?._id === currentUser._id;
   const isGroup = selectedConversation?.isGroup;
+  const messageType = message?.messageType.split("/")[0];
 
   const formatTime = (timeStamp: number) => {
     return format(timeStamp, "HH:mm");
   };
 
   const bgClass = fromMe
-    ? "bg-[#AF57DB] dark:bg-primary text-white"
-    : "bg-white dark:bg-[#505d6f]";
+    ? "bg-[#AF57DB]/50 dark:bg-primary/50 text-white"
+    : "bg-white/50 dark:bg-[#505d6f]/50";
 
   return (
     <>
@@ -60,15 +61,11 @@ const ChatBubble = ({
             </Avatar>
           )}
           <div
-            className={`relative flex flex-col z-20 max-w-[70%] min-w-[10%] p-3 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+            className={`relative flex flex-col z-20 max-w-[70%] min-w-[10%] p-2 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
           >
-            {message.messageType === "text" && (
-              <TextMessage message={message} />
-            )}
-            {message.messageType === "video" && (
-              <VideoMessage message={message} />
-            )}
-            {message.messageType === "image" && (
+            {messageType === "text" && <TextMessage message={message} />}
+            {messageType === "video" && <VideoMessage message={message} />}
+            {messageType === "image" && (
               <ImageMessage
                 message={message}
                 handleClick={() => setOpen(true)}
@@ -89,15 +86,11 @@ const ChatBubble = ({
       ) : (
         <div className="flex items-end justify-end mb-3 w-full">
           <div
-            className={`relative max-w-[70%] min-w-[10%] flex flex-col gap-1 z-20 p-3 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+            className={`relative max-w-[70%] min-w-[10%] flex flex-col gap-1 z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
           >
-            {message.messageType === "text" && (
-              <TextMessage message={message} />
-            )}
-            {message.messageType === "video" && (
-              <VideoMessage message={message} />
-            )}
-            {message.messageType === "image" && (
+            {messageType === "text" && <TextMessage message={message} />}
+            {messageType === "video" && <VideoMessage message={message} />}
+            {messageType === "image" && (
               <ImageMessage
                 message={message}
                 handleClick={() => setOpen(true)}
@@ -131,11 +124,11 @@ const ImageMessage = ({
   handleClick: () => void;
 }) => {
   return (
-    <div className="w-[250px] h-[250px] m-2 relative">
+    <div className="w-[250px] h-[250px] relative">
       <Image
         src={message.content}
         fill
-        className="cursor-pointer object-cover rounded"
+        className="cursor-pointer object-cover rounded-2xl"
         alt="image"
         onClick={handleClick}
       />
@@ -185,12 +178,7 @@ const ImageDialog = ({
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <DialogDescription className="relative h-[450px] flex justify-center">
-          <Image
-            src={src}
-            fill
-            className="rounded-lg object-contain"
-            alt="image"
-          />
+          <Image src={src} fill className="object-contain" alt="image" />
         </DialogDescription>
       </DialogContent>
     </Dialog>
@@ -199,12 +187,14 @@ const ImageDialog = ({
 
 const VideoMessage = ({ message }: { message: IMessage }) => {
   return (
-    <ReactPlayer
-      url={message.content}
-      width="250px"
-      height="250px"
-      controls={true}
-      light={true}
-    />
+    <div className="rounded-2xl">
+      <ReactPlayer
+        url={message.content}
+        width="450px"
+        height="250px"
+        controls={true}
+        light={false}
+      />
+    </div>
   );
 };

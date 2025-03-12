@@ -24,10 +24,6 @@ export default defineSchema({
     sender: v.string(),
     senderName: v.string(),
     content: v.string(),
-    messageType: v.union(
-      v.literal("text"),
-      v.literal("image"),
-      v.literal("video")
-    ),
+    messageType: v.string(),
   }).index("by_conversationId", ["conversationId"]),
 });

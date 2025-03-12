@@ -28,7 +28,7 @@ export interface IMessage {
   _id: string;
   content: string;
   _creationTime: number;
-  messageType: "text" | "image" | "video";
+  messageType: string;
   sender: {
     _id: Id<"users">;
     image: string;

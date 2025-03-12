@@ -162,7 +162,7 @@ const UserListDialog = () => {
           {users?.map((user) => (
             <div
               key={user._id}
-              className={`flex gap-3 items-center p-2 rounded-2xl cursor-pointer active:scale-95 transition-all ease-in-out duration-300 ${selectedUsers.includes(user._id) ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100"}`}
+              className={`flex gap-3 items-center p-2 rounded-2xl cursor-pointer active:scale-95 transition-all ease-in-out duration-300 ${selectedUsers.includes(user._id) ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100 dark:hover:bg-white/10"}`}
               onClick={() => {
                 if (selectedUsers.includes(user._id)) {
                   setSelectedUsers(
