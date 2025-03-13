@@ -121,7 +121,7 @@ const UserListDialog = () => {
       }}
     >
       <DialogTrigger>
-        <MessageSquare />
+        <MessageSquare className="text-gray-400 hover:text-primary transition-colors duration-300" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

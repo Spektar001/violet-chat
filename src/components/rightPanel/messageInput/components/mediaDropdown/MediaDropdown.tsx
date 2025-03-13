@@ -138,7 +138,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
 
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Plus className="text-gray-600 dark:text-gray-400" />
+          <Plus className="text-gray-400 hover:text-primary transition-colors duration-300" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent>
