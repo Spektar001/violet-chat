@@ -20,7 +20,8 @@ import {
   Trash,
 } from "lucide-react";
 import Link from "next/link";
-import { use } from "react";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
@@ -29,10 +30,22 @@ type Props = {
 };
 
 const ConversationPage = ({ params }: Props) => {
+  const router = useRouter();
   const { conversationId } = use(params);
   const conversation = useQuery(api.conversation.getConversationById, {
     id: conversationId,
   });
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        router.push("/v");
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [router]);
 
   if (!conversation) {
     return <RightPanelFallback />;
