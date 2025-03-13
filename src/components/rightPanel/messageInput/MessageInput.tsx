@@ -8,7 +8,7 @@ import { SendHorizontal, Smile } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
-import { api } from "../../../../../convex/_generated/api";
+import { api } from "../../../../convex/_generated/api";
 import MediaDropdown from "./components/mediaDropdown/MediaDropdown";
 
 type MessageInputProps = {

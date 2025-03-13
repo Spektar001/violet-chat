@@ -1,4 +1,4 @@
-import ChatPlaceHolder from "@/components/rightPanel/components/chatPlaceHolder/ChatPlaceHolder";
+import ChatPlaceHolder from "@/components/rightPanel/chatPlaceHolder/ChatPlaceHolder";
 
 export default function Home() {
   return <ChatPlaceHolder />;

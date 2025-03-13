@@ -6,7 +6,7 @@ import { ConvexError } from "convex/values";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { api } from "../../../../../convex/_generated/api";
+import { api } from "../../../../convex/_generated/api";
 import ChatBubble from "../chatBubble/ChatBubble";
 
 type MessageContainerProps = {

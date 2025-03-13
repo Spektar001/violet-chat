@@ -21,8 +21,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import ReactPlayer from "react-player";
-import { api } from "../../../../../../../convex/_generated/api";
-import { Id } from "../../../../../../../convex/_generated/dataModel";
+import { api } from "../../../../../../convex/_generated/api";
+import { Id } from "../../../../../../convex/_generated/dataModel";
 
 type MediaDropdownProps = {
   conversationId: Id<"conversations">;
