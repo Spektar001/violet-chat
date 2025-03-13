@@ -1,7 +1,7 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
-import { useConvexAuth, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { usePathname } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 import LeftPanelFallback from "../LeftPanelFallback";
@@ -10,7 +10,6 @@ import UserListDialog from "../userListDialog/UserListDialog";
 import Conversation from "./components/conversation/Conversation";
 
 const LeftPanel = () => {
-  const { isAuthenticated } = useConvexAuth();
   const pathname = usePathname().replace("/v/", "");
   const conversations = useQuery(api.conversations.getMyConversations);
 
@@ -24,7 +23,7 @@ const LeftPanel = () => {
         <UserButton />
 
         <div className="flex items-center gap-3">
-          {isAuthenticated && <UserListDialog />}
+          <UserListDialog />
           <ThemeSwitch />
         </div>
       </div>
