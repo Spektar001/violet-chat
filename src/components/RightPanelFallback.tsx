@@ -5,10 +5,10 @@ const RightPanelFallback = () => {
     <div className="w-3/4 h-full flex flex-col">
       <div className="py-3 px-5 flex justify-between items-center border-b">
         <div className="flex items-center gap-3">
-          <Skeleton className="w-10 h-10 rounded-full" />
+          <Skeleton className="w-10 h-10 rounded-full animate-pulse duration-700" />
           <div className="flex flex-col gap-2">
-            <Skeleton className="w-16 h-2 rounded-full" />
-            <Skeleton className="w-10 h-2 rounded-full" />
+            <Skeleton className="w-16 h-2 rounded-full animate-pulse duration-700" />
+            <Skeleton className="w-10 h-2 rounded-full animate-pulse duration-700" />
           </div>
         </div>
       </div>
@@ -20,10 +20,10 @@ const RightPanelFallback = () => {
                 "flex flex-col gap-3 max-w-[70%] min-w-[10%] p-3 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap bg-white"
               }
             >
-              <Skeleton className="w-16 h-2 rounded-full" />
-              <Skeleton className="w-10 h-2 rounded-full" />
+              <Skeleton className="w-16 h-2 rounded-full animate-pulse duration-700" />
+              <Skeleton className="w-10 h-2 rounded-full animate-pulse duration-700" />
               <div className="flex items-end justify-end">
-                <Skeleton className="w-10 h-2 rounded-full" />
+                <Skeleton className="w-10 h-2 rounded-full animate-pulse duration-700" />
               </div>
             </div>
           </div>
@@ -33,11 +33,11 @@ const RightPanelFallback = () => {
                 "max-w-[70%] min-w-[10%] flex flex-col gap-3 p-3 rounded-s-2xl rounded-tr-2xl shadow-md bg-white"
               }
             >
-              <Skeleton className="w-32 h-2 rounded-full" />
-              <Skeleton className="w-16 h-2 rounded-full" />
-              <Skeleton className="w-10 h-2 rounded-full" />
+              <Skeleton className="w-32 h-2 rounded-full animate-pulse duration-700" />
+              <Skeleton className="w-16 h-2 rounded-full animate-pulse duration-700" />
+              <Skeleton className="w-10 h-2 rounded-full animate-pulse duration-700" />
               <div className="flex gap-3 items-center justify-end">
-                <Skeleton className="w-10 h-2 rounded-full" />
+                <Skeleton className="w-10 h-2 rounded-full animate-pulse duration-700" />
               </div>
             </div>
           </div>
@@ -47,12 +47,12 @@ const RightPanelFallback = () => {
                 "flex flex-col gap-3 max-w-[70%] min-w-[10%] p-3 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap bg-white"
               }
             >
-              <Skeleton className="w-40 h-2 rounded-full" />
-              <Skeleton className="w-56 h-2 rounded-full" />
-              <Skeleton className="w-20 h-2 rounded-full" />
-              <Skeleton className="w-24 h-2 rounded-full" />
+              <Skeleton className="w-40 h-2 rounded-full animate-pulse duration-700" />
+              <Skeleton className="w-56 h-2 rounded-full animate-pulse duration-700" />
+              <Skeleton className="w-20 h-2 rounded-full animate-pulse duration-700" />
+              <Skeleton className="w-24 h-2 rounded-full animate-pulse duration-700" />
               <div className="flex items-end justify-end">
-                <Skeleton className="w-10 h-2  rounded-full" />
+                <Skeleton className="w-10 h-2  rounded-full animate-pulse duration-700" />
               </div>
             </div>
           </div>
