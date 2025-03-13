@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
 import { ImageIcon, MessageSquare } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "../../../convex/_generated/api";
@@ -28,6 +29,8 @@ const UserListDialog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [renderedImage, setRenderedImage] = useState("");
+
+  const router = useRouter();
 
   const imgRef = useRef<HTMLInputElement>(null);
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
@@ -97,7 +100,9 @@ const UserListDialog = () => {
       setGroupName("");
       setSelectedImage(null);
 
-      return conversationId;
+      if (conversationId) {
+        router.push(`/v/${conversationId}`);
+      }
     } catch (error) {
       toast.error(
         error instanceof ConvexError ? error.data : "Unexpected error occurred"
