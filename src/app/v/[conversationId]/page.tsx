@@ -5,20 +5,9 @@ import MessageContainer from "@/components/rightPanel/messageContainer/MessageCo
 import MessageInput from "@/components/rightPanel/messageInput/MessageInput";
 import RightPanelFallback from "@/components/RightPanelFallback";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import ChatOptionsDropdown from "@/widgets/сhatOptionsDropdown/ChatOptionsDropdown";
 import { useQuery } from "convex/react";
-import {
-  ArrowLeft,
-  EllipsisVertical,
-  Eraser,
-  SlidersHorizontal,
-  Trash,
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { use, useEffect } from "react";
@@ -35,6 +24,9 @@ const ConversationPage = ({ params }: Props) => {
   const conversation = useQuery(api.conversation.getConversationById, {
     id: conversationId,
   });
+  const currentUser = useQuery(api.users.getMe);
+
+  const isAdmin = currentUser?._id === conversation?.admin;
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -79,25 +71,7 @@ const ConversationPage = ({ params }: Props) => {
             )}
           </div>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <EllipsisVertical className="text-gray-400 hover:text-primary duration-300 cursor-pointer" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <SlidersHorizontal />
-              Manage group
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Eraser />
-              Сlear history
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Trash />
-              Delete chat
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ChatOptionsDropdown isGroup={conversation.isGroup} isAdmin={isAdmin} />
       </div>
       <MessageContainer selectedConversation={conversation} />
       <MessageInput selectedConversation={conversation} />
