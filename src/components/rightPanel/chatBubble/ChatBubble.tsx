@@ -1,7 +1,12 @@
 "use client";
 
-import { IConversation, IMessage } from "@/components/types/types";
+import {
+  IConversation,
+  ICurrentUser,
+  IMessage,
+} from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { SuccessSvg } from "@/lib/success";
+import MessageContextMenu from "@/widgets/messageContextMenu/MessageContextMenu";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +24,7 @@ import ReactPlayer from "react-player";
 
 type ChatBubbleProps = {
   message: IMessage;
-  currentUser: any;
+  currentUser: ICurrentUser;
   previousMessage?: IMessage;
   selectedConversation: IConversation;
 };
@@ -32,6 +38,8 @@ const ChatBubble = ({
   const [open, setOpen] = useState(false);
   const fromMe = message.sender?._id === currentUser._id;
   const isGroup = selectedConversation?.isGroup;
+  const isAdmin = currentUser._id === selectedConversation.admin;
+  const isMyMessage = currentUser._id === message.sender._id;
   const messageType = message?.messageType.split("/")[0];
 
   const formatTime = (timeStamp: number) => {
@@ -60,54 +68,76 @@ const ChatBubble = ({
               </AvatarFallback>
             </Avatar>
           )}
-          <div
-            className={`relative flex flex-col z-20 max-w-[70%] min-w-[10%] p-2 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
-          >
-            {messageType === "text" && <TextMessage message={message} />}
-            {messageType === "video" && <VideoMessage message={message} />}
-            {messageType === "image" && (
-              <ImageMessage
-                message={message}
-                handleClick={() => setOpen(true)}
-              />
-            )}
-            {open && (
-              <ImageDialog
-                src={message.content}
-                open={open}
-                onClose={() => setOpen(false)}
-              />
-            )}
-            <p className="flex items-end justify-end">
-              {formatTime(message._creationTime)}
-            </p>
-          </div>
+          <ContextMenu>
+            <ContextMenuTrigger asChild>
+              <div
+                className={`relative flex flex-col z-20 max-w-[70%] min-w-[10%] p-2 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+              >
+                {messageType === "text" && <TextMessage message={message} />}
+                {messageType === "video" && <VideoMessage message={message} />}
+                {messageType === "image" && (
+                  <ImageMessage
+                    message={message}
+                    handleClick={() => setOpen(true)}
+                  />
+                )}
+                {open && (
+                  <ImageDialog
+                    src={message.content}
+                    open={open}
+                    onClose={() => setOpen(false)}
+                  />
+                )}
+                <p className="flex items-end justify-end">
+                  {formatTime(message._creationTime)}
+                </p>
+              </div>
+            </ContextMenuTrigger>
+            <MessageContextMenu
+              isGroup={isGroup}
+              isAdmin={isAdmin}
+              isMyMessage={isMyMessage}
+              messageId={message._id}
+              messageType={messageType}
+            />
+          </ContextMenu>
         </div>
       ) : (
         <div className="flex items-end justify-end mb-3 w-full">
-          <div
-            className={`relative max-w-[70%] min-w-[10%] flex flex-col gap-1 z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
-          >
-            {messageType === "text" && <TextMessage message={message} />}
-            {messageType === "video" && <VideoMessage message={message} />}
-            {messageType === "image" && (
-              <ImageMessage
-                message={message}
-                handleClick={() => setOpen(true)}
-              />
-            )}
-            {open && (
-              <ImageDialog
-                src={message.content}
-                open={open}
-                onClose={() => setOpen(false)}
-              />
-            )}
-            <p className="flex gap-3 items-center justify-end">
-              {formatTime(message._creationTime)}
-              <SuccessSvg />
-            </p>
-          </div>
+          <ContextMenu>
+            <ContextMenuTrigger asChild>
+              <div
+                className={`relative max-w-[70%] min-w-[10%] flex flex-col gap-1 z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+              >
+                {messageType === "text" && <TextMessage message={message} />}
+                {messageType === "video" && <VideoMessage message={message} />}
+                {messageType === "image" && (
+                  <ImageMessage
+                    message={message}
+                    handleClick={() => setOpen(true)}
+                  />
+                )}
+                {open && (
+                  <ImageDialog
+                    src={message.content}
+                    open={open}
+                    onClose={() => setOpen(false)}
+                  />
+                )}
+                <p className="flex gap-3 items-center justify-end">
+                  {formatTime(message._creationTime)}
+                  <SuccessSvg />
+                </p>
+              </div>
+            </ContextMenuTrigger>
+            <MessageContextMenu
+              isGroup={isGroup}
+              isAdmin={isAdmin}
+              isMyMessage={isMyMessage}
+              messageId={message._id}
+              messageType={messageType}
+            />
+          </ContextMenu>
         </div>
       )}
     </>

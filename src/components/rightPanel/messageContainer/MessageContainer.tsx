@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
+import { IConversation, ICurrentUser } from "@/components/types/types";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
 import Image from "next/image";
@@ -21,7 +21,7 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
   });
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const sendImage = useMutation(api.messages.sendImage);
-  const currentUser = useQuery(api.users.getMe);
+  const currentUser = useQuery(api.users.getMe) as ICurrentUser | undefined;
 
   const handleImageClick = async () => {
     try {
@@ -92,7 +92,7 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
           <div key={message._id} ref={lastMessageRef}>
             <ChatBubble
               message={message}
-              currentUser={currentUser}
+              currentUser={currentUser!}
               previousMessage={idx > 0 ? messages[idx - 1] : undefined}
               selectedConversation={selectedConversation}
             />

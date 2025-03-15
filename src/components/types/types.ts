@@ -24,8 +24,18 @@ export interface IConversation {
   participants: Id<"users">[];
 }
 
+export interface ICurrentUser {
+  _id: Id<"users">;
+  _creationTime: number;
+  name?: string;
+  image: string;
+  email: string;
+  tokenIdentifier: string;
+  isOnline: boolean;
+}
+
 export interface IMessage {
-  _id: string;
+  _id: Id<"messages">;
   content: string;
   _creationTime: number;
   messageType: string;
