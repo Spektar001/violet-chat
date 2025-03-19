@@ -19,7 +19,7 @@ const LeftPanel = () => {
 
   return (
     <div className="h-full w-1/4 border-r">
-      <div className="p-3 flex justify-between items-center border-b">
+      <div className="p-3 flex justify-between items-center">
         <UserButton />
 
         <div className="flex items-center gap-3">
