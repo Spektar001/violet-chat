@@ -41,6 +41,9 @@ const ChatBubble = ({
   const isAdmin = currentUser._id === selectedConversation.admin;
   const isMyMessage = currentUser._id === message.sender._id;
   const messageType = message?.messageType.split("/")[0];
+  const otherUserId = selectedConversation.participants.find(
+    (id) => id !== currentUser._id
+  );
 
   const formatTime = (timeStamp: number) => {
     return format(timeStamp, "HH:mm");
@@ -99,6 +102,7 @@ const ChatBubble = ({
               isMyMessage={isMyMessage}
               messageId={message._id}
               messageType={messageType}
+              otherUserId={otherUserId!}
             />
           </ContextMenu>
         </div>
@@ -136,6 +140,7 @@ const ChatBubble = ({
               isMyMessage={isMyMessage}
               messageId={message._id}
               messageType={messageType}
+              otherUserId={otherUserId!}
             />
           </ContextMenu>
         </div>

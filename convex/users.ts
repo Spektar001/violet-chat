@@ -113,6 +113,24 @@ export const getMe = query({
   },
 });
 
+export const getOtherUser = query({
+  args: { otherUserId: v.id("users") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    const otherUser = await ctx.db.get(args.otherUserId);
+
+    if (!otherUser) {
+      throw new ConvexError("Other user not found");
+    }
+
+    return otherUser;
+  },
+});
+
 export const getGroupMembers = query({
   args: { conversationId: v.id("conversations") },
   handler: async (ctx, args) => {
