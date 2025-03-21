@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
-import { ImageIcon, Plus, Video } from "lucide-react";
+import { ImageIcon, Paperclip, Video } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -138,7 +138,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
 
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Plus className="text-gray-400 hover:text-primary transition-colors duration-300" />
+          <Paperclip className="text-gray-400 hover:text-primary transition-colors duration-300" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent>
