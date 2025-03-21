@@ -21,6 +21,8 @@ export default defineSchema({
 
   messages: defineTable({
     conversationId: v.id("conversations"),
+    storageId: v.optional(v.id("_storage")),
+    fileName: v.optional(v.string()),
     sender: v.string(),
     senderName: v.string(),
     content: v.string(),

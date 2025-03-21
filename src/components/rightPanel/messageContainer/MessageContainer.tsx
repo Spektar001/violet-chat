@@ -52,6 +52,7 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: imageFile.type,
+        imageName: imageFile.name,
       });
     } catch (error) {
       toast.error(

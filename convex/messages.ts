@@ -97,6 +97,7 @@ export const sendImage = mutation({
     senderName: v.string(),
     messageType: v.string(),
     conversationId: v.id("conversations"),
+    imageName: v.string(),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -112,6 +113,8 @@ export const sendImage = mutation({
       senderName: args.senderName,
       messageType: args.messageType,
       conversationId: args.conversationId,
+      storageId: args.imgId,
+      fileName: args.imageName,
     });
   },
 });
@@ -123,6 +126,7 @@ export const sendVideo = mutation({
     senderName: v.string(),
     messageType: v.string(),
     conversationId: v.id("conversations"),
+    videoName: v.string(),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -138,6 +142,8 @@ export const sendVideo = mutation({
       senderName: args.senderName,
       messageType: args.messageType,
       conversationId: args.conversationId,
+      storageId: args.videoId,
+      fileName: args.videoName,
     });
   },
 });

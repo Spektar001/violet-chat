@@ -57,6 +57,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: selectedImage!.type,
+        imageName: selectedImage!.name,
       });
 
       setSelectedImage(null);
@@ -87,6 +88,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: selectedVideo!.type,
+        videoName: selectedVideo!.name,
       });
 
       setSelectedVideo(null);

@@ -5,6 +5,7 @@ import {
   ContextMenuItem,
 } from "@/components/ui/context-menu";
 import { useQuery } from "convex/react";
+import saveAs from "file-saver";
 import { ArrowDownToLine, Copy, Trash } from "lucide-react";
 import { useState } from "react";
 import { api } from "../../../convex/_generated/api";
@@ -45,6 +46,11 @@ const MessageContextMenu = ({
     }
   };
 
+  const downloadFile = () => {
+    if (!message?.content) return;
+    saveAs(message.content, message.fileName);
+  };
+
   return (
     <>
       {isDeleteModalOpen && (
@@ -62,9 +68,9 @@ const MessageContextMenu = ({
             {isMyMessage ? (
               <>
                 {typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Сохранить как...
+                    Загрузить
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
@@ -81,9 +87,9 @@ const MessageContextMenu = ({
             ) : (
               <>
                 {typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Сохранить как...
+                    Загрузить
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
@@ -106,9 +112,9 @@ const MessageContextMenu = ({
             {isMyMessage ? (
               <>
                 {typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Сохранить как...
+                    Загрузить
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
@@ -125,9 +131,9 @@ const MessageContextMenu = ({
             ) : (
               <>
                 {typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Сохранить как...
+                    Загрузить
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (

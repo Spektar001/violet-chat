@@ -15,12 +15,15 @@ export interface IConversation {
   lastMessage?: {
     _creationTime: number;
     _id: Id<"messages">;
+    storageId?: Id<"_storage">;
+    fileName?: string;
     content: string;
     conversationId: Id<"conversations">;
     messageType: string;
     sender: string;
     senderName: string;
   };
+  participantName?: string;
   participants: Id<"users">[];
 }
 
@@ -36,6 +39,8 @@ export interface ICurrentUser {
 
 export interface IMessage {
   _id: Id<"messages">;
+  storageId?: Id<"_storage">;
+  fileName?: string;
   content: string;
   _creationTime: number;
   messageType: string;
