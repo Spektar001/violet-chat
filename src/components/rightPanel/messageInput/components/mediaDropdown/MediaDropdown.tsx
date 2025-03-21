@@ -232,7 +232,7 @@ const MediaVideoDialog = ({
   handleSendVideo,
 }: MediaVideoDialogProps) => {
   const renderedVideo = URL.createObjectURL(
-    new Blob([selectedVideo], { type: "video/mp4" })
+    new Blob([selectedVideo], { type: selectedVideo.type })
   );
 
   return (
