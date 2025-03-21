@@ -5,6 +5,7 @@ import {
   ICurrentUser,
   IMessage,
 } from "@/components/types/types";
+import { File } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import {
@@ -78,6 +79,9 @@ const ChatBubble = ({
               >
                 {messageType === "text" && <TextMessage message={message} />}
                 {messageType === "video" && <VideoMessage message={message} />}
+                {messageType === "application" && (
+                  <FileMessage message={message} />
+                )}
                 {messageType === "image" && (
                   <ImageMessage
                     message={message}
@@ -115,6 +119,9 @@ const ChatBubble = ({
               >
                 {messageType === "text" && <TextMessage message={message} />}
                 {messageType === "video" && <VideoMessage message={message} />}
+                {messageType === "application" && (
+                  <FileMessage message={message} />
+                )}
                 {messageType === "image" && (
                   <ImageMessage
                     message={message}
@@ -230,6 +237,24 @@ const VideoMessage = ({ message }: { message: IMessage }) => {
         controls={true}
         light={false}
       />
+    </div>
+  );
+};
+
+const FileMessage = ({ message }: { message: IMessage }) => {
+  const formatFileSize = (size: number) => {
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  return (
+    <div className="flex items-center gap-4">
+      <File size={40} />
+      <div className="flex flex-col">
+        <span className="text-foreground">{message.fileName}</span>
+        <span className="text-gray-500">{formatFileSize(message.fileSize!)}</span>
+      </div>
     </div>
   );
 };

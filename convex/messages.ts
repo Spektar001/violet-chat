@@ -147,3 +147,34 @@ export const sendVideo = mutation({
     });
   },
 });
+
+export const sendFile = mutation({
+  args: {
+    fileId: v.id("_storage"),
+    sender: v.id("users"),
+    senderName: v.string(),
+    messageType: v.string(),
+    conversationId: v.id("conversations"),
+    fileName: v.string(),
+    fileSize: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    const content = (await ctx.storage.getUrl(args.fileId)) as string;
+
+    await ctx.db.insert("messages", {
+      content: content,
+      sender: args.sender,
+      senderName: args.senderName,
+      messageType: args.messageType,
+      conversationId: args.conversationId,
+      storageId: args.fileId,
+      fileName: args.fileName,
+      fileSize: args.fileSize,
+    });
+  },
+});

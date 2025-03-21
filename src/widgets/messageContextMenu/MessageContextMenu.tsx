@@ -30,7 +30,10 @@ const MessageContextMenu = ({
   otherUserId,
 }: Props) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const typeImageOrVideo = messageType === "image" || messageType === "video";
+  const typeFile =
+    messageType === "image" ||
+    messageType === "video" ||
+    messageType === "application";
 
   const otherUser = useQuery(api.users.getOtherUser, {
     otherUserId: otherUserId,
@@ -67,13 +70,13 @@ const MessageContextMenu = ({
           <>
             {isMyMessage ? (
               <>
-                {typeImageOrVideo && (
+                {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
                     Загрузить
                   </ContextMenuItem>
                 )}
-                {!typeImageOrVideo && (
+                {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
@@ -86,13 +89,13 @@ const MessageContextMenu = ({
               </>
             ) : (
               <>
-                {typeImageOrVideo && (
+                {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
                     Загрузить
                   </ContextMenuItem>
                 )}
-                {!typeImageOrVideo && (
+                {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
@@ -111,13 +114,13 @@ const MessageContextMenu = ({
           <>
             {isMyMessage ? (
               <>
-                {typeImageOrVideo && (
+                {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
                     Загрузить
                   </ContextMenuItem>
                 )}
-                {!typeImageOrVideo && (
+                {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
@@ -130,13 +133,13 @@ const MessageContextMenu = ({
               </>
             ) : (
               <>
-                {typeImageOrVideo && (
+                {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
                     Загрузить
                   </ContextMenuItem>
                 )}
-                {!typeImageOrVideo && (
+                {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст

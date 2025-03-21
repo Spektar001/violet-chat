@@ -23,6 +23,7 @@ export default defineSchema({
     conversationId: v.id("conversations"),
     storageId: v.optional(v.id("_storage")),
     fileName: v.optional(v.string()),
+    fileSize: v.optional(v.number()),
     sender: v.string(),
     senderName: v.string(),
     content: v.string(),

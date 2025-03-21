@@ -17,6 +17,7 @@ export interface IConversation {
     _id: Id<"messages">;
     storageId?: Id<"_storage">;
     fileName?: string;
+    fileSize?: number;
     content: string;
     conversationId: Id<"conversations">;
     messageType: string;
@@ -41,6 +42,7 @@ export interface IMessage {
   _id: Id<"messages">;
   storageId?: Id<"_storage">;
   fileName?: string;
+  fileSize?: number;
   content: string;
   _creationTime: number;
   messageType: string;

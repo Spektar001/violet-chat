@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
-import { ImageIcon, Paperclip, Video } from "lucide-react";
+import { File, ImageIcon, Paperclip, Video } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -31,22 +31,27 @@ type MediaDropdownProps = {
 const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
   const imageInput = useRef<HTMLInputElement>(null);
   const videoInput = useRef<HTMLInputElement>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const sendImage = useMutation(api.messages.sendImage);
   const sendVideo = useMutation(api.messages.sendVideo);
+  const sendFile = useMutation(api.messages.sendFile);
   const currentUser = useQuery(api.users.getMe);
 
   const handleSendImage = async () => {
+    if (!selectedImage) return;
+
     setIsLoading(true);
     try {
       const postUrl = await generateUploadUrl();
       const result = await fetch(postUrl, {
         method: "POST",
-        headers: { "Content-Type": selectedImage!.type },
+        headers: { "Content-Type": selectedImage.type },
         body: selectedImage,
       });
 
@@ -56,8 +61,8 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         imgId: storageId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
-        messageType: selectedImage!.type,
-        imageName: selectedImage!.name,
+        messageType: selectedImage.type,
+        imageName: selectedImage.name,
       });
 
       setSelectedImage(null);
@@ -71,12 +76,14 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
   };
 
   const handleSendVideo = async () => {
+    if (!selectedVideo) return;
+
     setIsLoading(true);
     try {
       const postUrl = await generateUploadUrl();
       const result = await fetch(postUrl, {
         method: "POST",
-        headers: { "Content-Type": selectedVideo!.type },
+        headers: { "Content-Type": selectedVideo.type },
         body: selectedVideo,
       });
 
@@ -87,11 +94,45 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         conversationId: conversationId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
-        messageType: selectedVideo!.type,
-        videoName: selectedVideo!.name,
+        messageType: selectedVideo.type,
+        videoName: selectedVideo.name,
       });
 
       setSelectedVideo(null);
+    } catch (error) {
+      toast.error(
+        error instanceof ConvexError ? error.data : "Unexpected error occurred"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSendFile = async () => {
+    if (!selectedFile) return;
+
+    setIsLoading(true);
+    try {
+      const postUrl = await generateUploadUrl();
+      const result = await fetch(postUrl, {
+        method: "POST",
+        headers: { "Content-Type": selectedFile.type },
+        body: selectedFile,
+      });
+
+      const { storageId } = await result.json();
+
+      await sendFile({
+        conversationId,
+        fileId: storageId,
+        sender: currentUser!._id,
+        senderName: currentUser?.name || "",
+        messageType: selectedFile.type,
+        fileName: selectedFile.name,
+        fileSize: selectedFile.size,
+      });
+
+      setSelectedFile(null);
     } catch (error) {
       toast.error(
         error instanceof ConvexError ? error.data : "Unexpected error occurred"
@@ -117,6 +158,13 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         onChange={(e) => setSelectedVideo(e.target?.files![0])}
         hidden
       />
+      <input
+        type="file"
+        ref={fileInput}
+        accept="*/*"
+        onChange={(e) => setSelectedFile(e.target?.files![0])}
+        hidden
+      />
 
       {selectedImage && (
         <MediaImageDialog
@@ -138,6 +186,16 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         />
       )}
 
+      {selectedFile && (
+        <FileDialog
+          isOpen={selectedFile !== null}
+          onClose={() => setSelectedFile(null)}
+          selectedFile={selectedFile}
+          isLoading={isLoading}
+          handleSendFile={handleSendFile}
+        />
+      )}
+
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Paperclip className="text-gray-400 hover:text-primary transition-colors duration-300" />
@@ -150,6 +208,10 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
           <DropdownMenuItem onClick={() => videoInput.current!.click()}>
             <Video size={20} className="mr-1" />
             Video
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => fileInput.current!.click()}>
+            <File size={20} className="mr-1" />
+            Document
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -263,6 +325,59 @@ const MediaVideoDialog = ({
         >
           {isLoading ? "Sending..." : "Send"}
         </Button>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+type FileDialogProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  selectedFile: File;
+  isLoading: boolean;
+  handleSendFile: () => void;
+};
+
+const FileDialog = ({
+  isOpen,
+  onClose,
+  selectedFile,
+  isLoading,
+  handleSendFile,
+}: FileDialogProps) => {
+  const formatFileSize = (size: number) => {
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  return (
+    <Dialog
+      open={isOpen}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) onClose();
+      }}
+    >
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Send File</DialogTitle>
+        </DialogHeader>
+        <DialogDescription className="flex flex-col gap-4">
+          <div className="flex items-center gap-4">
+            <File size={40} />
+            <div className="flex flex-col">
+              <span className="text-foreground">{selectedFile.name}</span>
+              <span className="text-gray-400">{formatFileSize(selectedFile.size)}</span>
+            </div>
+          </div>
+          <Button
+            className="w-full"
+            disabled={isLoading}
+            onClick={handleSendFile}
+          >
+            {isLoading ? "Sending..." : "Send"}
+          </Button>
+        </DialogDescription>
       </DialogContent>
     </Dialog>
   );
