@@ -113,7 +113,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
       <input
         type="file"
         ref={videoInput}
-        accept="video/mp4"
+        accept="video/*"
         onChange={(e) => setSelectedVideo(e.target?.files![0])}
         hidden
       />
@@ -192,13 +192,13 @@ const MediaImageDialog = ({
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle></DialogTitle>
+          <DialogTitle>Photo</DialogTitle>
         </DialogHeader>
         <DialogDescription className="flex flex-col gap-10 justify-center items-center">
           {renderedImage && (
             <Image
               src={renderedImage}
-              width={300}
+              width={400}
               height={300}
               alt="selected image"
             />
@@ -244,14 +244,18 @@ const MediaVideoDialog = ({
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle></DialogTitle>
+          <DialogTitle>Video</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Video</DialogDescription>
-        <div className="w-full">
+        <DialogDescription className="w-full">
           {renderedVideo && (
-            <ReactPlayer url={renderedVideo} controls width="100%" />
+            <ReactPlayer
+              url={renderedVideo}
+              controls
+              height="100%"
+              width="100%"
+            />
           )}
-        </div>
+        </DialogDescription>
         <Button
           className="w-full"
           disabled={isLoading}
