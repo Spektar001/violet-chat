@@ -34,6 +34,16 @@ const MessageContextMenu = ({
   const otherUser = useQuery(api.users.getOtherUser, {
     otherUserId: otherUserId,
   });
+  const message = useQuery(api.message.getMessageById, { messageId });
+
+  const copyToClipboard = async () => {
+    if (!message) return;
+    try {
+      await navigator.clipboard.writeText(message.content);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -58,7 +68,7 @@ const MessageContextMenu = ({
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
                   </ContextMenuItem>
@@ -77,7 +87,7 @@ const MessageContextMenu = ({
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
                   </ContextMenuItem>
@@ -102,7 +112,7 @@ const MessageContextMenu = ({
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
                   </ContextMenuItem>
@@ -121,7 +131,7 @@ const MessageContextMenu = ({
                   </ContextMenuItem>
                 )}
                 {!typeImageOrVideo && (
-                  <ContextMenuItem>
+                  <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
                     Копировать текст
                   </ContextMenuItem>
