@@ -90,73 +90,15 @@ export const getMessages = query({
   },
 });
 
-export const sendImage = mutation({
-  args: {
-    imgId: v.id("_storage"),
-    sender: v.id("users"),
-    senderName: v.string(),
-    messageType: v.string(),
-    conversationId: v.id("conversations"),
-    imageName: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new ConvexError("Unauthorized");
-    }
-
-    const content = (await ctx.storage.getUrl(args.imgId)) as string;
-
-    await ctx.db.insert("messages", {
-      content: content,
-      sender: args.sender,
-      senderName: args.senderName,
-      messageType: args.messageType,
-      conversationId: args.conversationId,
-      storageId: args.imgId,
-      fileName: args.imageName,
-    });
-  },
-});
-
-export const sendVideo = mutation({
-  args: {
-    videoId: v.id("_storage"),
-    sender: v.id("users"),
-    senderName: v.string(),
-    messageType: v.string(),
-    conversationId: v.id("conversations"),
-    videoName: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new ConvexError("Unauthorized");
-    }
-
-    const content = (await ctx.storage.getUrl(args.videoId)) as string;
-
-    await ctx.db.insert("messages", {
-      content: content,
-      sender: args.sender,
-      senderName: args.senderName,
-      messageType: args.messageType,
-      conversationId: args.conversationId,
-      storageId: args.videoId,
-      fileName: args.videoName,
-    });
-  },
-});
-
 export const sendFile = mutation({
   args: {
-    fileId: v.id("_storage"),
+    storageId: v.id("_storage"),
     sender: v.id("users"),
     senderName: v.string(),
     messageType: v.string(),
     conversationId: v.id("conversations"),
     fileName: v.string(),
-    fileSize: v.number(),
+    fileSize: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -164,7 +106,7 @@ export const sendFile = mutation({
       throw new ConvexError("Unauthorized");
     }
 
-    const content = (await ctx.storage.getUrl(args.fileId)) as string;
+    const content = (await ctx.storage.getUrl(args.storageId)) as string;
 
     await ctx.db.insert("messages", {
       content: content,
@@ -172,7 +114,7 @@ export const sendFile = mutation({
       senderName: args.senderName,
       messageType: args.messageType,
       conversationId: args.conversationId,
-      storageId: args.fileId,
+      storageId: args.storageId,
       fileName: args.fileName,
       fileSize: args.fileSize,
     });

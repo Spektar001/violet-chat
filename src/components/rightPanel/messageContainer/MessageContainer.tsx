@@ -20,7 +20,7 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
     conversationId: selectedConversation!._id,
   });
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
-  const sendImage = useMutation(api.messages.sendImage);
+  const sendFile = useMutation(api.messages.sendFile);
   const currentUser = useQuery(api.users.getMe) as ICurrentUser | undefined;
 
   const handleImageClick = async () => {
@@ -46,13 +46,13 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
       });
 
       const { storageId } = await result.json();
-      await sendImage({
+      await sendFile({
         conversationId: selectedConversation._id,
-        imgId: storageId,
+        storageId: storageId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: imageFile.type,
-        imageName: imageFile.name,
+        fileName: imageFile.name,
       });
     } catch (error) {
       toast.error(

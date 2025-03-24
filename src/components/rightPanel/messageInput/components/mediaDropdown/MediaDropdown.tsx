@@ -38,8 +38,6 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
-  const sendImage = useMutation(api.messages.sendImage);
-  const sendVideo = useMutation(api.messages.sendVideo);
   const sendFile = useMutation(api.messages.sendFile);
   const currentUser = useQuery(api.users.getMe);
 
@@ -56,13 +54,13 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
       });
 
       const { storageId } = await result.json();
-      await sendImage({
+      await sendFile({
         conversationId: conversationId,
-        imgId: storageId,
+        storageId: storageId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: selectedImage.type,
-        imageName: selectedImage.name,
+        fileName: selectedImage.name,
       });
 
       setSelectedImage(null);
@@ -89,13 +87,13 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
 
       const { storageId } = await result.json();
 
-      await sendVideo({
-        videoId: storageId,
+      await sendFile({
+        storageId: storageId,
         conversationId: conversationId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: selectedVideo.type,
-        videoName: selectedVideo.name,
+        fileName: selectedVideo.name,
       });
 
       setSelectedVideo(null);
@@ -124,7 +122,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
 
       await sendFile({
         conversationId,
-        fileId: storageId,
+        storageId: storageId,
         sender: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: selectedFile.type,
