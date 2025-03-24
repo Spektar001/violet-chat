@@ -5,7 +5,6 @@ import {
   ICurrentUser,
   IMessage,
 } from "@/components/types/types";
-import { File } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import {
@@ -18,6 +17,8 @@ import {
 import { SuccessSvg } from "@/lib/success";
 import MessageContextMenu from "@/widgets/messageContextMenu/MessageContextMenu";
 import { format } from "date-fns";
+import saveAs from "file-saver";
+import { File } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -248,12 +249,22 @@ const FileMessage = ({ message }: { message: IMessage }) => {
     return `${(size / (1024 * 1024)).toFixed(1)} MB`;
   };
 
+  const downloadFile = () => {
+    if (!message?.content) return;
+    saveAs(message.content, message.fileName);
+  };
+
   return (
-    <div className="flex items-center gap-4">
+    <div
+      onClick={downloadFile}
+      className="cursor-pointer flex items-center gap-4"
+    >
       <File size={40} />
       <div className="flex flex-col">
         <span className="text-foreground">{message.fileName}</span>
-        <span className="text-gray-500">{formatFileSize(message.fileSize!)}</span>
+        <span className="text-gray-500">
+          {formatFileSize(message.fileSize!)}
+        </span>
       </div>
     </div>
   );
