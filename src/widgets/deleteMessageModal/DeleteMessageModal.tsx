@@ -14,6 +14,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 
 type Props = {
   messageId: Id<"messages">;
+  storageId?: Id<"_storage">;
   participantName?: string;
   isGroup: boolean;
   isOpen: boolean;
@@ -22,6 +23,7 @@ type Props = {
 
 const DeleteMessageModal = ({
   messageId,
+  storageId,
   participantName,
   isGroup,
   isOpen,
@@ -29,9 +31,12 @@ const DeleteMessageModal = ({
 }: Props) => {
   const deleteMessage = useMutation(api.message.deleteMessageById);
 
-  const deleteMessageById = async (messageId: Id<"messages">) => {
+  const deleteMessageById = async (
+    messageId: Id<"messages">,
+    storageId?: Id<"_storage">
+  ) => {
     try {
-      await deleteMessage({ messageId });
+      await deleteMessage({ messageId, storageId });
       onClose();
     } catch (error) {
       console.error(error);
@@ -54,8 +59,12 @@ const DeleteMessageModal = ({
           )}
         </DialogDescription>
         <div className="flex items-center justify-end gap-10">
-          <Button variant="ghost" className="text-gray-500" onClick={onClose}>Cancel</Button>
-          <Button onClick={() => deleteMessageById(messageId)}>Delete</Button>
+          <Button variant="ghost" className="text-gray-500" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button onClick={() => deleteMessageById(messageId, storageId)}>
+            Delete
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

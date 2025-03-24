@@ -17,6 +17,7 @@ type Props = {
   isAdmin: boolean;
   isMyMessage: boolean;
   messageId: Id<"messages">;
+  storageId?: Id<"_storage">;
   messageType: string;
   otherUserId: Id<"users">;
 };
@@ -26,6 +27,7 @@ const MessageContextMenu = ({
   isAdmin,
   isMyMessage,
   messageId,
+  storageId,
   messageType,
   otherUserId,
 }: Props) => {
@@ -59,6 +61,7 @@ const MessageContextMenu = ({
       {isDeleteModalOpen && (
         <DeleteMessageModal
           messageId={messageId}
+          storageId={storageId}
           isGroup={isGroup}
           participantName={otherUser?.name || otherUser?.email}
           isOpen={isDeleteModalOpen}

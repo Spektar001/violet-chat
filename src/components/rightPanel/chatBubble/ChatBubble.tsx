@@ -41,6 +41,7 @@ const ChatBubble = ({
   const fromMe = message.sender?._id === currentUser._id;
   const isGroup = selectedConversation?.isGroup;
   const isAdmin = currentUser._id === selectedConversation.admin;
+  const storageId = message.storageId || undefined;
   const isMyMessage = currentUser._id === message.sender._id;
   const messageType = message?.messageType.split("/")[0];
   const otherUserId = selectedConversation.participants.find(
@@ -106,6 +107,7 @@ const ChatBubble = ({
               isAdmin={isAdmin}
               isMyMessage={isMyMessage}
               messageId={message._id}
+              storageId={storageId}
               messageType={messageType}
               otherUserId={otherUserId!}
             />
@@ -147,6 +149,7 @@ const ChatBubble = ({
               isAdmin={isAdmin}
               isMyMessage={isMyMessage}
               messageId={message._id}
+              storageId={message.storageId}
               messageType={messageType}
               otherUserId={otherUserId!}
             />
