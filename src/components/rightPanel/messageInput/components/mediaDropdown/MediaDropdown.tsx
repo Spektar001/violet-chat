@@ -200,14 +200,29 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => imageInput.current!.click()}>
+          <DropdownMenuItem
+            onClick={() => {
+              imageInput.current!.value = "";
+              imageInput.current!.click();
+            }}
+          >
             <ImageIcon size={18} className="mr-1" /> Photo
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => videoInput.current!.click()}>
+          <DropdownMenuItem
+            onClick={() => {
+              videoInput.current!.value = "";
+              videoInput.current!.click();
+            }}
+          >
             <Video size={20} className="mr-1" />
             Video
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => fileInput.current!.click()}>
+          <DropdownMenuItem
+            onClick={() => {
+              fileInput.current!.value = "";
+              fileInput.current!.click();
+            }}
+          >
             <File size={20} className="mr-1" />
             Document
           </DropdownMenuItem>
@@ -365,7 +380,9 @@ const FileDialog = ({
             <File size={40} />
             <div className="flex flex-col">
               <span className="text-foreground">{selectedFile.name}</span>
-              <span className="text-gray-400">{formatFileSize(selectedFile.size)}</span>
+              <span className="text-gray-400">
+                {formatFileSize(selectedFile.size)}
+              </span>
             </div>
           </div>
           <Button
