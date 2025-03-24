@@ -74,6 +74,16 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
                   {lastMessage?.content}
                 </span>
               ))}
+            {lastMessageType === "application" &&
+              (conversation.isGroup ? (
+                <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                  {senderName}: {lastMessage?.fileName}
+                </span>
+              ) : (
+                <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                  {lastMessage?.fileName}
+                </span>
+              ))}
             {lastMessageType === "image" &&
               imageType !== "gif" &&
               (conversation.isGroup ? (
@@ -107,7 +117,7 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
                 {senderName}: <span className="uppercase">GIF</span>
               </>
             )}
-            {lastMessageType === "video"&& conversation.isGroup && (
+            {lastMessageType === "video" && conversation.isGroup && (
               <>
                 {senderName}:{" "}
                 <ReactPlayer
