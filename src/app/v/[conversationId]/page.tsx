@@ -71,7 +71,7 @@ const ConversationPage = ({ params }: Props) => {
             )}
           </div>
         </div>
-        <ChatOptionsDropdown isGroup={conversation.isGroup} isAdmin={isAdmin} />
+        <ChatOptionsDropdown isAdmin={isAdmin} conversation={conversation} />
       </div>
       <MessageContainer selectedConversation={conversation} />
       <MessageInput selectedConversation={conversation} />
