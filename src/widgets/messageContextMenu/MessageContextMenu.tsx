@@ -76,18 +76,18 @@ const MessageContextMenu = ({
                 {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Загрузить
+                    Download
                   </ContextMenuItem>
                 )}
                 {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
-                    Копировать текст
+                    Copy Text
                   </ContextMenuItem>
                 )}
                 <ContextMenuItem onClick={() => setDeleteModalOpen(true)}>
                   <Trash size={20} className="text-gray-700 mr-3" />
-                  Удалить
+                  Delete
                 </ContextMenuItem>
               </>
             ) : (
@@ -95,19 +95,19 @@ const MessageContextMenu = ({
                 {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Загрузить
+                    Download
                   </ContextMenuItem>
                 )}
                 {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
-                    Копировать текст
+                    Copy Text
                   </ContextMenuItem>
                 )}
                 {isAdmin && (
                   <ContextMenuItem onClick={() => setDeleteModalOpen(true)}>
                     <Trash size={20} className="text-gray-700 mr-3" />
-                    Удалить
+                    Delete
                   </ContextMenuItem>
                 )}
               </>
@@ -120,18 +120,18 @@ const MessageContextMenu = ({
                 {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Загрузить
+                    Download
                   </ContextMenuItem>
                 )}
                 {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
-                    Копировать текст
+                    Copy Text
                   </ContextMenuItem>
                 )}
                 <ContextMenuItem onClick={() => setDeleteModalOpen(true)}>
                   <Trash size={20} className="text-gray-700 mr-3" />
-                  Удалить
+                  Delete
                 </ContextMenuItem>
               </>
             ) : (
@@ -139,13 +139,13 @@ const MessageContextMenu = ({
                 {typeFile && (
                   <ContextMenuItem onClick={downloadFile}>
                     <ArrowDownToLine size={20} className="text-gray-700 mr-3" />
-                    Загрузить
+                    Download
                   </ContextMenuItem>
                 )}
                 {!typeFile && (
                   <ContextMenuItem onClick={copyToClipboard}>
                     <Copy size={20} className="text-gray-700 mr-3" />
-                    Копировать текст
+                    Copy Text
                   </ContextMenuItem>
                 )}
               </>
