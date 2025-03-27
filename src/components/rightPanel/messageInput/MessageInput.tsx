@@ -22,6 +22,9 @@ const MessageInput = ({ selectedConversation }: MessageInputProps) => {
 
   const handleSendTextMsg = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!msgText.trim()) return;
+
     try {
       await sendTextMsg({
         content: msgText,
