@@ -81,3 +81,41 @@ export const clearHistory = mutation({
     }
   },
 });
+
+export const deleteChat = mutation({
+  args: { conversationId: v.id("conversations") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    try {
+      const conversation = await ctx.db.get(args.conversationId);
+      if (!conversation) throw new ConvexError("Conversation not found");
+
+      const messages = await ctx.db
+        .query("messages")
+        .filter((q) => q.eq(q.field("conversationId"), args.conversationId))
+        .collect();
+
+      await Promise.all(
+        messages.map(async (msg) => {
+          if (msg.storageId) {
+            try {
+              await ctx.storage.delete(msg.storageId);
+            } catch (err) {
+              console.error(`Failed to delete file ${msg.storageId}:`, err);
+            }
+          }
+          await ctx.db.delete(msg._id);
+        })
+      );
+
+      await ctx.db.delete(args.conversationId);
+
+      return { success: true, message: "Chat deleted successfully", redirectUrl: "/v" };
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+      throw new ConvexError("Failed to delete chat");
+    }
+  },
+});

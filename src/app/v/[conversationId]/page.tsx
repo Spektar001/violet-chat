@@ -4,13 +4,13 @@ import GroupMembersDialog from "@/components/rightPanel/groupMembersDialog/Group
 import MessageContainer from "@/components/rightPanel/messageContainer/MessageContainer";
 import MessageInput from "@/components/rightPanel/messageInput/MessageInput";
 import RightPanelFallback from "@/components/RightPanelFallback";
+import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ChatOptionsDropdown from "@/widgets/сhatOptionsDropdown/ChatOptionsDropdown";
 import { useQuery } from "convex/react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { use, useEffect } from "react";
+import { use } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
@@ -19,25 +19,13 @@ type Props = {
 };
 
 const ConversationPage = ({ params }: Props) => {
-  const router = useRouter();
   const { conversationId } = use(params);
   const conversation = useQuery(api.conversation.getConversationById, {
     id: conversationId,
-  });
+  }) as IConversation;
   const currentUser = useQuery(api.users.getMe);
 
   const isAdmin = currentUser?._id === conversation?.admin;
-
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        router.push("/v");
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [router]);
 
   if (!conversation) {
     return <RightPanelFallback />;

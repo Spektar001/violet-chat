@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";
+import DeleteChatModal from "../DeleteChatModal/DeleteChatModal";
 
 type Props = {
   isAdmin: boolean;
@@ -25,6 +26,7 @@ type Props = {
 
 const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
   const [isClearHistoryModalOpen, setClearHistoryModalOpen] = useState(false);
+  const [isDeleteChatModal, setDeleteChatModal] = useState(false);
 
   return (
     <>
@@ -36,6 +38,18 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
           isGroup={conversation.isGroup}
           isOpen={isClearHistoryModalOpen}
           onClose={() => setClearHistoryModalOpen(false)}
+        />
+      )}
+      {isDeleteChatModal && (
+        <DeleteChatModal
+          conversationId={conversation._id}
+          groupImage={conversation.groupImage}
+          participantImage={conversation.otherUser?.image}
+          participantName={conversation.participantName?.trim()}
+          groupName={conversation.groupName}
+          isGroup={conversation.isGroup}
+          isOpen={isDeleteChatModal}
+          onClose={() => setDeleteChatModal(false)}
         />
       )}
       <DropdownMenu>
@@ -78,7 +92,7 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
               <Eraser />
               Сlear history
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setDeleteChatModal(true)}>
               <Trash />
               Delete chat
             </DropdownMenuItem>

@@ -12,6 +12,15 @@ export interface IConversation {
   isGroup: boolean;
   isOnline?: boolean;
   tokenIdentifier?: string;
+  otherUser?: {
+    _creationTime: number;
+    _id: Id<"users">;
+    email: string;
+    image: string;
+    isOnline: boolean;
+    name: string;
+    tokenIdentifier: string;
+  };
   lastMessage?: {
     _creationTime: number;
     _id: Id<"messages">;
