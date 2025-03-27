@@ -35,7 +35,7 @@ const ChatBubble = ({
   currentUser,
   message,
   selectedConversation,
-  previousMessage,
+  // previousMessage,
 }: ChatBubbleProps) => {
   const [open, setOpen] = useState(false);
   const fromMe = message.sender?._id === currentUser._id;
