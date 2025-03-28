@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useMutation } from "convex/react";
-import { useRouter } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 
@@ -35,13 +34,10 @@ const DeleteChatModal = ({
   isOpen,
   onClose,
 }: Props) => {
-  const router = useRouter();
-
   const deleteChat = useMutation(api.conversation.deleteChat);
 
   const handleDeleteChat = async (conversationId: Id<"conversations">) => {
     try {
-      router.push("/v");
       await deleteChat({ conversationId });
       onClose();
     } catch (error) {

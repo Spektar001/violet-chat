@@ -112,7 +112,7 @@ export const deleteChat = mutation({
 
       await ctx.db.delete(args.conversationId);
 
-      return { success: true, message: "Chat deleted successfully", redirectUrl: "/v" };
+      return { success: true, message: "Chat deleted successfully" };
     } catch (error) {
       console.error("Error deleting chat:", error);
       throw new ConvexError("Failed to delete chat");
