@@ -71,7 +71,12 @@ const DeleteChatModal = ({
           <Button variant="ghost" className="text-gray-500" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={() => handleDeleteChat(conversationId)}>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteChat(conversationId);
+            }}
+          >
             Delete
           </Button>
         </div>

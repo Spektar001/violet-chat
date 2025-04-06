@@ -62,7 +62,12 @@ const ClearHistoryModal = ({
           <Button variant="ghost" className="text-gray-500" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={() => handleClearHistory(conversationId)}>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClearHistory(conversationId);
+            }}
+          >
             Delete
           </Button>
         </div>
