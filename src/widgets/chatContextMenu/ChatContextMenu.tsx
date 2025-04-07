@@ -45,7 +45,7 @@ const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
       )}
       {conversation.isGroup ? (
         <ContextMenuContent>
-          {conversation.admin && (
+          {isAdmin && (
             <ContextMenuItem
               onClick={(e) => {
                 e.stopPropagation();
