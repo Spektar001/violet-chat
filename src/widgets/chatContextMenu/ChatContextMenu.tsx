@@ -68,9 +68,14 @@ const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
             </ContextMenuItem>
           )}
           {isAdmin && (
-            <ContextMenuItem>
+            <ContextMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                setDeleteChatModal(true);
+              }}
+            >
               <Trash size={15} className="text-gray-700 mr-3" />
-              Delete and leave
+              Delete group
             </ContextMenuItem>
           )}
           {!isAdmin && (

@@ -86,17 +86,12 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
               </DropdownMenuItem>
             )}
             {isAdmin ? (
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setDeleteChatModal(true)}>
                 <Trash />
-                Delete and leave
+                Delete group
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLeaveUserModal(true);
-                }}
-              >
+              <DropdownMenuItem onClick={() => setLeaveUserModal(true)}>
                 <LogOut />
                 Leave group
               </DropdownMenuItem>

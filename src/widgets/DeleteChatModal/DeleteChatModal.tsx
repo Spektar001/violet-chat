@@ -60,12 +60,20 @@ const DeleteChatModal = ({
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="flex flex-col gap-2">
-          <p>
-            Are you sure you want to delete all message history with{" "}
-            {participantName}?
-          </p>
+          {isGroup ? (
+            <p>Are you sure you want to delete this group?</p>
+          ) : (
+            <p>
+              Are you sure you want to delete all message history with{" "}
+              {participantName}?
+            </p>
+          )}
           <p>This action cannot be undone.</p>
-          <p>Also removed for {participantName}</p>
+          {isGroup ? (
+            <p>Delete for everyone</p>
+          ) : (
+            <p>Also removed for {participantName}</p>
+          )}
         </DialogDescription>
         <div className="flex items-center justify-end gap-10">
           <Button variant="ghost" className="text-gray-500" onClick={onClose}>

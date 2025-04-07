@@ -45,7 +45,10 @@ const LeaveUserModal = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-4">
             <Avatar>
-              <AvatarImage src={groupImage} className="object-cover" />
+              <AvatarImage
+                src={groupImage || "/placeholder.png"}
+                className="object-cover"
+              />
             </Avatar>
             {groupName}
           </DialogTitle>
