@@ -25,7 +25,8 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
   const imageType = lastMessage?.messageType.split("/")[1];
 
   const currentUser = useQuery(api.users.getMe);
-  const isAdmin = conversation?.admins?.includes(currentUser!._id) ?? false;
+  if (!currentUser) return null;
+  const isAdmin = conversation?.admins?.includes(currentUser?._id) ?? false;
 
   const senderName =
     lastMessage?.senderName === currentUser?.name
