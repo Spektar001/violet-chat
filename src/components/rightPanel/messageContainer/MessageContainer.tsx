@@ -77,9 +77,9 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
             admins={selectedConversation.admins!}
           />
         ) : (
-          <div className="w-80 flex flex-col items-center justify-center p-4 text-center text-white bg-violet-400/50 dark:bg-white/10 rounded-2xl">
+          <div className="w-72 flex flex-col items-center justify-center p-4 text-center text-white bg-violet-400/50 dark:bg-white/10 rounded-2xl">
             <p className="text font-medium">No messages here yet...</p>
-            <p>Send a message or click on the greeting below</p>
+            <p className="w-52">Send a message or click on the greeting below</p>
             <Image
               className="cursor-pointer"
               onClick={handleImageClick}
