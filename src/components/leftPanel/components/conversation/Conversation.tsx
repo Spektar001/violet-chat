@@ -3,6 +3,7 @@
 import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenuTrigger } from "@/components/ui/context-menu";
+import ChatContextMenu from "@/widgets/chatContextMenu/ChatContextMenu";
 import { ContextMenu } from "@radix-ui/react-context-menu";
 import { useQuery } from "convex/react";
 import { format } from "date-fns";
@@ -10,7 +11,6 @@ import Image from "next/image";
 import Link from "next/link";
 import ReactPlayer from "react-player";
 import { api } from "../../../../../convex/_generated/api";
-import ChatContextMenu from "@/widgets/chatContextMenu/ChatContextMenu";
 
 type ConversationProps = {
   pathname: string;

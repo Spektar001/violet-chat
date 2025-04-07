@@ -119,3 +119,41 @@ export const deleteChat = mutation({
     }
   },
 });
+
+export const leaveUser = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_tokenIdentifier", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier)
+      )
+      .unique();
+
+    if (!currentUser) {
+      throw new ConvexError("User not found");
+    }
+
+    const conversation = await ctx.db.get(args.conversationId);
+    if (!conversation) throw new ConvexError("Conversation not found");
+
+    if (!conversation.participants.includes(currentUser._id)) {
+      throw new ConvexError("You are not a participant of this conversation.");
+    }
+
+    const updatedParticipants = conversation.participants.filter(
+      (id) => id !== currentUser._id
+    );
+
+    await ctx.db.patch(args.conversationId, {
+      participants: updatedParticipants,
+    });
+
+    return { leftConversation: true };
+  },
+});

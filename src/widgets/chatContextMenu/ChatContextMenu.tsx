@@ -9,6 +9,7 @@ import { Eraser, LogOut, Trash } from "lucide-react";
 import { useState } from "react";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";
 import DeleteChatModal from "../DeleteChatModal/DeleteChatModal";
+import LeaveUserModal from "../leaveUserModal/LeaveUserModal";
 
 type Props = {
   isAdmin: boolean;
@@ -18,6 +19,7 @@ type Props = {
 const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
   const [isClearHistoryModalOpen, setClearHistoryModalOpen] = useState(false);
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
+  const [isLeaveUserModal, setLeaveUserModal] = useState(false);
 
   return (
     <>
@@ -43,6 +45,15 @@ const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
           onClose={() => setDeleteChatModal(false)}
         />
       )}
+      {isLeaveUserModal && (
+        <LeaveUserModal
+          conversationId={conversation._id}
+          groupImage={conversation.groupImage}
+          groupName={conversation.groupName}
+          isOpen={isLeaveUserModal}
+          onClose={() => setLeaveUserModal(false)}
+        />
+      )}
       {conversation.isGroup ? (
         <ContextMenuContent>
           {isAdmin && (
@@ -63,7 +74,12 @@ const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
             </ContextMenuItem>
           )}
           {!isAdmin && (
-            <ContextMenuItem>
+            <ContextMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                setLeaveUserModal(true);
+              }}
+            >
               <LogOut size={15} className="text-gray-700 mr-3" />
               Leave group
             </ContextMenuItem>

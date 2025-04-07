@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";
 import DeleteChatModal from "../DeleteChatModal/DeleteChatModal";
+import LeaveUserModal from "../leaveUserModal/LeaveUserModal";
 
 type Props = {
   isAdmin: boolean;
@@ -27,6 +28,7 @@ type Props = {
 const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
   const [isClearHistoryModalOpen, setClearHistoryModalOpen] = useState(false);
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
+  const [isLeaveUserModal, setLeaveUserModal] = useState(false);
 
   return (
     <>
@@ -50,6 +52,15 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
           isGroup={conversation.isGroup}
           isOpen={isDeleteChatModal}
           onClose={() => setDeleteChatModal(false)}
+        />
+      )}
+      {isLeaveUserModal && (
+        <LeaveUserModal
+          conversationId={conversation._id}
+          groupImage={conversation.groupImage}
+          groupName={conversation.groupName}
+          isOpen={isLeaveUserModal}
+          onClose={() => setLeaveUserModal(false)}
         />
       )}
       <DropdownMenu>
@@ -80,7 +91,12 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
                 Delete and leave
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLeaveUserModal(true);
+                }}
+              >
                 <LogOut />
                 Leave group
               </DropdownMenuItem>
