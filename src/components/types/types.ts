@@ -4,7 +4,7 @@ export interface IConversation {
   _creationTime: number;
   _id: Id<"conversations">;
   email?: string;
-  admin?: Id<"users">;
+  admins?: Id<"users">[];
   groupImage?: string;
   image?: string;
   groupName?: string;

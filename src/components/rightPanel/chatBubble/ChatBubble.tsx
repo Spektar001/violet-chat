@@ -40,7 +40,7 @@ const ChatBubble = ({
   const [open, setOpen] = useState(false);
   const fromMe = message.sender?._id === currentUser._id;
   const isGroup = selectedConversation?.isGroup;
-  const isAdmin = currentUser._id === selectedConversation.admin;
+  const isAdmin = selectedConversation?.admins?.includes(currentUser!._id) ?? false;
   const storageId = message.storageId || undefined;
   const isMyMessage = currentUser._id === message.sender._id;
   const messageType = message?.messageType.split("/")[0];

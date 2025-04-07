@@ -8,7 +8,7 @@ export const createConversation = mutation({
     isGroup: v.boolean(),
     groupName: v.optional(v.string()),
     groupImage: v.optional(v.id("_storage")),
-    admin: v.optional(v.id("users")),
+    admins: v.optional(v.array(v.id("users"))),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -24,7 +24,7 @@ export const createConversation = mutation({
             q.eq(q.field("isGroup"), false),
             q.or(
               q.eq(q.field("participants"), args.participants),
-              q.eq(q.field("participants"), args.participants.reverse())
+              q.eq(q.field("participants"), args.participants.slice().reverse())
             )
           )
         )
@@ -47,7 +47,7 @@ export const createConversation = mutation({
       isGroup: args.isGroup,
       groupName: args.groupName,
       groupImage,
-      admin: args.admin,
+      admins: args.admins,
     });
 
     return converstionId;

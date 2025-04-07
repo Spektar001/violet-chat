@@ -25,7 +25,7 @@ const ConversationPage = ({ params }: Props) => {
   }) as IConversation;
   const currentUser = useQuery(api.users.getMe);
 
-  const isAdmin = currentUser?._id === conversation?.admin;
+  const isAdmin = conversation?.admins?.includes(currentUser!._id) ?? false;
 
   if (!conversation) {
     return <RightPanelFallback />;

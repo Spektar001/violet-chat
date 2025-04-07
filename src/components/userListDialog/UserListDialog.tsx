@@ -92,7 +92,7 @@ const UserListDialog = () => {
           isGroup: true,
           groupName: groupName,
           groupImage: storageId,
-          admin: currentUser?._id,
+          admins: [currentUser!._id],
         });
       }
       dialogCloseRef.current?.click();

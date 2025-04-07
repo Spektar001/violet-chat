@@ -50,7 +50,7 @@ const GroupMembersDialog = ({
                   <span className="font-medium text-ellipsis text-nowrap overflow-hidden">
                     {user.name || user.email.split("@")[0]}
                   </span>
-                  {user._id === selectedConversation.admin && (
+                  {selectedConversation.admins?.includes(user._id) && (
                     <span className="text-violet-900">Owner</span>
                   )}
                 </div>
