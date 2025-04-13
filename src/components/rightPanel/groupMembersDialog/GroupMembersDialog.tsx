@@ -29,7 +29,7 @@ const GroupMembersDialog = ({
         </p>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[300px]" align="start">
-        <div className="flex flex-col">
+        <div className="flex flex-col max-h-[350px] overflow-x-auto">
           {users?.map((user) => (
             <div
               key={user._id}
@@ -45,15 +45,13 @@ const GroupMembersDialog = ({
                 </AvatarFallback>
               </Avatar>
 
-              <div className="w-full flex items-center gap-2">
-                <div className="w-[90%] flex items-center justify-between">
-                  <span className="font-medium text-ellipsis text-nowrap overflow-hidden">
-                    {user.name || user.email.split("@")[0]}
-                  </span>
-                  {selectedConversation.admins?.includes(user._id) && (
-                    <span className="text-violet-900">Owner</span>
-                  )}
-                </div>
+              <div className="w-full flex items-center justify-between">
+                <span className="text-ellipsis text-nowrap overflow-hidden">
+                  {user.name || user.email.split("@")[0]}
+                </span>
+                {selectedConversation.admins?.includes(user._id) && (
+                  <span className="text-violet-900">Owner</span>
+                )}
               </div>
             </div>
           ))}

@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";
 import DeleteChatModal from "../DeleteChatModal/DeleteChatModal";
+import GroupInfoModal from "../groupInfoModal/GroupInfoModal";
 import LeaveUserModal from "../leaveUserModal/LeaveUserModal";
 
 type Props = {
@@ -29,9 +30,17 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
   const [isClearHistoryModalOpen, setClearHistoryModalOpen] = useState(false);
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
   const [isLeaveUserModal, setLeaveUserModal] = useState(false);
+  const [isGroupInfoModal, setGroupInfoModal] = useState(false);
 
   return (
     <>
+      {isGroupInfoModal && (
+        <GroupInfoModal
+          conversation={conversation}
+          isOpen={isGroupInfoModal}
+          onClose={() => setGroupInfoModal(false)}
+        />
+      )}
       {isClearHistoryModalOpen && (
         <ClearHistoryModal
           conversationId={conversation._id}
@@ -69,7 +78,7 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
         </DropdownMenuTrigger>
         {conversation.isGroup ? (
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setGroupInfoModal(true)}>
               <Info />
               View group info
             </DropdownMenuItem>
