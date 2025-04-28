@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 
 export const getConversationById = query({
@@ -154,6 +155,105 @@ export const leaveUser = mutation({
       participants: updatedParticipants,
     });
 
-    return { leftConversation: true };
+    return { success: true };
+  },
+});
+
+export const updateParticipants = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+    userIds: v.union(v.array(v.id("users")), v.id("users")),
+    action: v.union(v.literal("add"), v.literal("remove")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const conversation = await ctx.db.get(args.conversationId);
+    if (!conversation) throw new ConvexError("Conversation not found");
+
+    const userIds = Array.isArray(args.userIds) ? args.userIds : [args.userIds];
+
+    let updatedParticipants = conversation.participants;
+    let updatedAdmins = conversation.admins || [];
+
+    if (args.action === "add") {
+      const newUsers = userIds.filter(
+        (userId) => !updatedParticipants.includes(userId)
+      );
+      updatedParticipants = [...updatedParticipants, ...newUsers];
+    }
+
+    if (args.action === "remove") {
+      updatedParticipants = updatedParticipants.filter(
+        (id) => !userIds.includes(id)
+      );
+
+      updatedAdmins = updatedAdmins.filter(
+        (adminId) => !userIds.includes(adminId)
+      );
+    }
+
+    await ctx.db.patch(args.conversationId, {
+      participants: updatedParticipants,
+      admins: updatedAdmins,
+    });
+
+    return { success: true };
+  },
+});
+
+export const updateAdmins = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+    userId: v.id("users"),
+    action: v.union(v.literal("add"), v.literal("remove")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const conversation = await ctx.db.get(args.conversationId);
+    if (!conversation) throw new ConvexError("Conversation not found");
+
+    const currentAdmins = conversation.admins || [];
+
+    let updatedAdmins: Id<"users">[];
+
+    if (args.action === "add") {
+      updatedAdmins = currentAdmins.includes(args.userId)
+        ? currentAdmins
+        : [...currentAdmins, args.userId];
+    } else if (args.action === "remove") {
+      updatedAdmins = currentAdmins.filter((id) => id !== args.userId);
+    } else {
+      throw new ConvexError("Invalid action");
+    }
+
+    await ctx.db.patch(args.conversationId, {
+      admins: updatedAdmins,
+    });
+
+    return { success: true };
+  },
+});
+
+export const updateConversation = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+    groupName: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const conversation = await ctx.db.get(args.conversationId);
+    if (!conversation) throw new ConvexError("Conversation not found");
+
+    await ctx.db.patch(args.conversationId, {
+      groupName: args.groupName,
+    });
+
+    return { success: true };
   },
 });

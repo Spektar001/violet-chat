@@ -1,23 +1,25 @@
 "use client";
 
-import { ICurrentUser } from "@/components/types/types";
+import { IUser } from "@/components/types/types";
 import { useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Id } from "../../../../../convex/_generated/dataModel";
 
 type Props = {
-  currentUser: ICurrentUser;
-  admins: Id<"users">[];
+  currentUser: IUser;
+  groupOwner: Id<"users">;
 };
 
-const GroupFeatures = ({ currentUser, admins }: Props) => {
-  const isAdmin = admins.includes(currentUser._id);
-  const userOwner = useQuery(api.users.getOtherUser, { otherUserId: admins[0] });
+const GroupFeatures = ({ currentUser, groupOwner }: Props) => {
+  const isOwner = currentUser._id === groupOwner;
+  const userOwner = useQuery(api.users.getOtherUser, {
+    otherUserId: groupOwner,
+  });
 
   return (
     <div className="w-72 flex flex-col p-4 text-center text-white bg-violet-400/50 dark:bg-white/10 rounded-2xl">
       <p className="text-center mb-3">
-        {isAdmin ? "You" : userOwner?.name} created a group
+        {isOwner ? "You" : userOwner?.name} created a group
       </p>
       <p className="text-left mb-2">Groups can have:</p>
       <ul className="space-y-1">

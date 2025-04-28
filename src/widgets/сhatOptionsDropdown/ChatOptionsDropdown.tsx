@@ -15,11 +15,12 @@ import {
   SlidersHorizontal,
   Trash,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";
 import DeleteChatModal from "../DeleteChatModal/DeleteChatModal";
 import GroupInfoModal from "../groupInfoModal/GroupInfoModal";
 import LeaveUserModal from "../leaveUserModal/LeaveUserModal";
+import ManageGroupModal from "../manageGroupModal/ManageGroupModal";
 
 type Props = {
   isAdmin: boolean;
@@ -31,9 +32,23 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
   const [isLeaveUserModal, setLeaveUserModal] = useState(false);
   const [isGroupInfoModal, setGroupInfoModal] = useState(false);
+  const [isManageGroupModal, setManageGroupModal] = useState(false);
+
+  useEffect(() => {
+    setManageGroupModal(false);
+    setDeleteChatModal(false);
+    setClearHistoryModalOpen(false);
+  }, [isAdmin]);
 
   return (
     <>
+      {isManageGroupModal && (
+        <ManageGroupModal
+          conversation={conversation}
+          isOpen={isManageGroupModal}
+          onClose={() => setManageGroupModal(false)}
+        />
+      )}
       {isGroupInfoModal && (
         <GroupInfoModal
           conversation={conversation}
@@ -83,7 +98,7 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
               View group info
             </DropdownMenuItem>
             {isAdmin && (
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setManageGroupModal(true)}>
                 <SlidersHorizontal />
                 Manage group
               </DropdownMenuItem>

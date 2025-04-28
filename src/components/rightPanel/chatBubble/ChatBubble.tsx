@@ -2,7 +2,7 @@
 
 import {
   IConversation,
-  ICurrentUser,
+  IUser,
   IMessage,
 } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,7 +26,7 @@ import ReactPlayer from "react-player";
 
 type ChatBubbleProps = {
   message: IMessage;
-  currentUser: ICurrentUser;
+  currentUser: IUser;
   previousMessage?: IMessage;
   selectedConversation: IConversation;
 };

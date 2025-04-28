@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation, ICurrentUser } from "@/components/types/types";
+import { IConversation, IUser } from "@/components/types/types";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
   });
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const sendFile = useMutation(api.messages.sendFile);
-  const currentUser = useQuery(api.users.getMe) as ICurrentUser | undefined;
+  const currentUser = useQuery(api.users.getMe) as IUser | undefined;
 
   const handleImageClick = async () => {
     try {
@@ -74,12 +74,14 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
         {selectedConversation.isGroup ? (
           <GroupFeatures
             currentUser={currentUser!}
-            admins={selectedConversation.admins!}
+            groupOwner={selectedConversation.groupOwner!}
           />
         ) : (
           <div className="w-72 flex flex-col items-center justify-center p-4 text-center text-white bg-violet-400/50 dark:bg-white/10 rounded-2xl">
             <p className="text font-medium">No messages here yet...</p>
-            <p className="w-52">Send a message or click on the greeting below</p>
+            <p className="w-52">
+              Send a message or click on the greeting below
+            </p>
             <Image
               className="cursor-pointer"
               onClick={handleImageClick}

@@ -51,11 +51,11 @@ const GroupInfoModal = ({ conversation, isOpen, onClose }: Props) => {
               {conversation.participants.length} members
             </p>
           </div>
-          <div className="flex flex-col max-h-[350px] overflow-x-auto">
+          <div className="flex flex-col max-h-[350px] overflow-y-auto">
             {users?.map((user) => (
               <div
                 key={user._id}
-                className="flex gap-3 items-center p-2 rounded-2xl duration-300 hover:bg-violet-100"
+                className="flex gap-3 items-center p-2 rounded-2xl duration-300 hover:bg-violet-100 dark:hover:bg-white/10"
               >
                 <Avatar className="overflow-visible">
                   <AvatarImage
@@ -71,9 +71,11 @@ const GroupInfoModal = ({ conversation, isOpen, onClose }: Props) => {
                   <span className="text-ellipsis text-nowrap overflow-hidden">
                     {user.name || user.email.split("@")[0]}
                   </span>
-                  {conversation.admins?.includes(user._id) && (
-                    <span className="text-violet-900">Owner</span>
-                  )}
+                  {conversation.groupOwner === user._id ? (
+                    <span className="text-violet-900 text-sm">Owner</span>
+                  ) : conversation.admins?.includes(user._id) ? (
+                    <span className="text-violet-900 text-sm">Admin</span>
+                  ) : null}
                 </div>
               </div>
             ))}

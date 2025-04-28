@@ -9,6 +9,7 @@ export const createConversation = mutation({
     groupName: v.optional(v.string()),
     groupImage: v.optional(v.id("_storage")),
     admins: v.optional(v.array(v.id("users"))),
+    groupOwner: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -48,6 +49,7 @@ export const createConversation = mutation({
       groupName: args.groupName,
       groupImage,
       admins: args.admins,
+      groupOwner: args.groupOwner,
     });
 
     return converstionId;

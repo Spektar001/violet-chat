@@ -5,6 +5,7 @@ export interface IConversation {
   _id: Id<"conversations">;
   email?: string;
   admins?: Id<"users">[];
+  groupOwner?: Id<"users">;
   groupImage?: string;
   image?: string;
   groupName?: string;
@@ -37,7 +38,7 @@ export interface IConversation {
   participants: Id<"users">[];
 }
 
-export interface ICurrentUser {
+export interface IUser {
   _id: Id<"users">;
   _creationTime: number;
   name?: string;

@@ -93,6 +93,7 @@ const UserListDialog = () => {
           groupName: groupName,
           groupImage: storageId,
           admins: [currentUser!._id],
+          groupOwner: currentUser!._id,
         });
       }
       dialogCloseRef.current?.click();
@@ -218,7 +219,7 @@ const UserListDialog = () => {
               <Image
                 width={24}
                 height={24}
-                src={"spinner.svg"}
+                src={"/spinner.svg"}
                 alt={"spinner"}
               />
             ) : (
