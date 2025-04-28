@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  IConversation,
-  IUser,
-  IMessage,
-} from "@/components/types/types";
+import { IConversation, IMessage, IUser } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import {
@@ -66,7 +62,7 @@ const ChatBubble = ({
                 <div className="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-white" />
               )}
               <AvatarImage
-                src={"/placeholder.png"}
+                src={message.sender.image || "/placeholder.png"}
                 className="object-cover rounded-full"
               />
               <AvatarFallback>
