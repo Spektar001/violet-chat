@@ -10,9 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { formatTime } from "@/lib/formatTime";
 import { SuccessSvg } from "@/lib/success";
 import MessageContextMenu from "@/widgets/messageContextMenu/MessageContextMenu";
-import { format } from "date-fns";
 import saveAs from "file-saver";
 import { File } from "lucide-react";
 import Image from "next/image";
@@ -36,17 +36,14 @@ const ChatBubble = ({
   const [open, setOpen] = useState(false);
   const fromMe = message.sender?._id === currentUser._id;
   const isGroup = selectedConversation?.isGroup;
-  const isAdmin = selectedConversation?.admins?.includes(currentUser!._id) ?? false;
+  const isAdmin =
+    selectedConversation?.admins?.includes(currentUser!._id) ?? false;
   const storageId = message.storageId || undefined;
   const isMyMessage = currentUser._id === message.sender._id;
   const messageType = message?.messageType.split("/")[0];
   const otherUserId = selectedConversation.participants.find(
     (id) => id !== currentUser._id
   );
-
-  const formatTime = (timeStamp: number) => {
-    return format(timeStamp, "HH:mm");
-  };
 
   const bgClass = fromMe
     ? "bg-[#AF57DB]/50 dark:bg-primary/50 text-white"
