@@ -3,7 +3,7 @@
 import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenuTrigger } from "@/components/ui/context-menu";
-import { formatTime } from "@/lib/formatTime";
+import { formatTimeConversation } from "@/lib/utils";
 import ChatContextMenu from "@/widgets/chatContextMenu/ChatContextMenu";
 import { ContextMenu } from "@radix-ui/react-context-menu";
 import { useQuery } from "convex/react";
@@ -59,7 +59,7 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
                 <span
                   className={`text-[10px] lg:text-xs ${activeBgClass ? "text-white" : "text-gray-500"} ml-auto`}
                 >
-                  {formatTime(
+                  {formatTimeConversation(
                     lastMessage?._creationTime || conversation._creationTime
                   )}
                 </span>
