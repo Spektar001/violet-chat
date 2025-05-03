@@ -57,3 +57,62 @@ export const getMessageById = query({
     return message;
   },
 });
+
+export const updateMessageStatus = mutation({
+  args: {
+    messageId: v.id("messages"),
+    status: v.union(v.literal("sent"), v.literal("seen")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    await ctx.db.patch(args.messageId, {
+      status: args.status,
+    });
+  },
+});
+
+export const markMessagesSeen = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    const messages = await ctx.db
+      .query("messages")
+      .withIndex("by_conversationId", (q) =>
+        q.eq("conversationId", args.conversationId)
+      )
+      .collect();
+
+    const dateNow = Date.now();
+
+    for (const msg of messages) {
+      if (msg.senderId === args.userId) continue;
+
+      const alreadySeen = msg.seenBy?.some(
+        (entry) => entry.userId === args.userId
+      );
+      if (!alreadySeen) {
+        await ctx.db.patch(msg._id, {
+          status: "seen",
+          seenBy: [
+            ...(msg.seenBy ?? []),
+            {
+              userId: args.userId,
+              seenAt: dateNow,
+            },
+          ],
+        });
+      }
+    }
+  },
+});

@@ -25,9 +25,18 @@ export default defineSchema({
     storageId: v.optional(v.id("_storage")),
     fileName: v.optional(v.string()),
     fileSize: v.optional(v.number()),
-    sender: v.string(),
+    senderId: v.id("users"),
     senderName: v.string(),
     content: v.string(),
     messageType: v.string(),
+    status: v.union(v.literal("sending"), v.literal("sent"), v.literal("seen")),
+    seenBy: v.optional(
+      v.array(
+        v.object({
+          userId: v.id("users"),
+          seenAt: v.number(),
+        })
+      )
+    ),
   }).index("by_conversationId", ["conversationId"]),
 });

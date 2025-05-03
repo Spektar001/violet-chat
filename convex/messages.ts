@@ -4,9 +4,10 @@ import { mutation, query } from "./_generated/server";
 export const sendTextMessages = mutation({
   args: {
     conversationId: v.id("conversations"),
-    sender: v.string(),
+    senderId: v.id("users"),
     senderName: v.string(),
     content: v.string(),
+    status: v.union(v.literal("sending")),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -37,13 +38,16 @@ export const sendTextMessages = mutation({
       throw new ConvexError("You are not part of this conversation");
     }
 
-    await ctx.db.insert("messages", {
+    const messageId = await ctx.db.insert("messages", {
       conversationId: args.conversationId,
-      sender: args.sender,
+      senderId: args.senderId,
       senderName: args.senderName,
       content: args.content,
       messageType: "text",
+      status: args.status,
     });
+
+    return messageId;
   },
 });
 
@@ -70,16 +74,16 @@ export const getMessages = query({
       messages.map(async (message) => {
         let sender;
         // Check if sender profile is in cache
-        if (userProfileCache.has(message.sender)) {
-          sender = userProfileCache.get(message.sender);
+        if (userProfileCache.has(message.senderId)) {
+          sender = userProfileCache.get(message.senderId);
         } else {
           // Fetch sender profile from the database
           sender = await ctx.db
             .query("users")
-            .filter((q) => q.eq(q.field("_id"), message.sender))
+            .filter((q) => q.eq(q.field("_id"), message.senderId))
             .first();
           // Cache the sender profile
-          userProfileCache.set(message.sender, sender);
+          userProfileCache.set(message.senderId, sender);
         }
 
         return { ...message, sender };
@@ -93,12 +97,13 @@ export const getMessages = query({
 export const sendFile = mutation({
   args: {
     storageId: v.id("_storage"),
-    sender: v.id("users"),
+    senderId: v.id("users"),
     senderName: v.string(),
     messageType: v.string(),
     conversationId: v.id("conversations"),
     fileName: v.string(),
     fileSize: v.optional(v.number()),
+    status: v.union(v.literal("sending")),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -108,15 +113,18 @@ export const sendFile = mutation({
 
     const content = (await ctx.storage.getUrl(args.storageId)) as string;
 
-    await ctx.db.insert("messages", {
+    const messageId = await ctx.db.insert("messages", {
       content: content,
-      sender: args.sender,
+      senderId: args.senderId,
       senderName: args.senderName,
       messageType: args.messageType,
       conversationId: args.conversationId,
       storageId: args.storageId,
       fileName: args.fileName,
       fileSize: args.fileSize,
+      status: args.status,
     });
+
+    return messageId;
   },
 });

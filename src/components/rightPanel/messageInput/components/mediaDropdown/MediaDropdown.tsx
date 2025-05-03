@@ -26,6 +26,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
 
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const sendFile = useMutation(api.messages.sendFile);
+  const updateMessageStatus = useMutation(api.message.updateMessageStatus);
   const currentUser = useQuery(api.users.getMe);
 
   const handleSendFile = async () => {
@@ -42,17 +43,19 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
 
       const { storageId } = await result.json();
 
-      await sendFile({
+      const messageId = await sendFile({
         conversationId,
         storageId: storageId,
-        sender: currentUser!._id,
+        senderId: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: selectedFile.type,
         fileName: selectedFile.name,
         fileSize: selectedFile.size,
+        status: "sending",
       });
 
       setSelectedFile(null);
+      await updateMessageStatus({ messageId, status: "sent" });
     } catch (error) {
       toast.error(
         error instanceof ConvexError ? error.data : "Unexpected error occurred"

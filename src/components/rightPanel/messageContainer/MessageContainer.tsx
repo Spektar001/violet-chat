@@ -22,6 +22,8 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
   });
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const sendFile = useMutation(api.messages.sendFile);
+  const updateMessageStatus = useMutation(api.message.updateMessageStatus);
+  const markSeen = useMutation(api.message.markMessagesSeen);
   const currentUser = useQuery(api.users.getMe) as IUser | undefined;
 
   const handleImageClick = async () => {
@@ -47,14 +49,16 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
       });
 
       const { storageId } = await result.json();
-      await sendFile({
+      const messageId = await sendFile({
         conversationId: selectedConversation._id,
         storageId: storageId,
-        sender: currentUser!._id,
+        senderId: currentUser!._id,
         senderName: currentUser?.name || "",
         messageType: imageFile.type,
         fileName: imageFile.name,
+        status: "sending",
       });
+      await updateMessageStatus({ messageId, status: "sent" });
     } catch (error) {
       toast.error(
         error instanceof ConvexError ? error.data : "Unexpected error occurred"
@@ -67,6 +71,20 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   }, [messages]);
+
+  useEffect(() => {
+    if (
+      messages &&
+      messages?.length > 0 &&
+      selectedConversation?._id &&
+      currentUser?._id
+    ) {
+      markSeen({
+        conversationId: selectedConversation._id,
+        userId: currentUser._id,
+      });
+    }
+  }, [currentUser?._id, markSeen, messages, selectedConversation._id]);
 
   if (messages?.length === 0) {
     return (

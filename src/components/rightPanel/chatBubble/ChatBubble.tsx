@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SuccessSvg } from "@/lib/success";
 import { formatTime } from "@/lib/utils";
 import MessageContextMenu from "@/widgets/messageContextMenu/MessageContextMenu";
 import saveAs from "file-saver";
@@ -143,7 +142,30 @@ const ChatBubble = ({
                   )}
                   <p className="text-sm flex gap-1 items-center justify-end">
                     {formatTime(message._creationTime)}
-                    <SuccessSvg />
+                    {message.status === "sending" && (
+                      <Image
+                        width={16}
+                        height={16}
+                        src="/clock.svg"
+                        alt="sending"
+                      />
+                    )}
+                    {message.status === "sent" && (
+                      <Image
+                        width={16}
+                        height={11}
+                        src="/msg-check.svg"
+                        alt="sent"
+                      />
+                    )}
+                    {message.status === "seen" && (
+                      <Image
+                        width={16}
+                        height={11}
+                        src="/msg-dblcheck.svg"
+                        alt="seen"
+                      />
+                    )}
                   </p>
                 </div>
               </ContextMenuTrigger>

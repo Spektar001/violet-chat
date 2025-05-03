@@ -18,6 +18,7 @@ type MessageInputProps = {
 const MessageInput = ({ selectedConversation }: MessageInputProps) => {
   const [msgText, setMsgText] = useState("");
   const sendTextMsg = useMutation(api.messages.sendTextMessages);
+  const updateMessageStatus = useMutation(api.message.updateMessageStatus);
   const currentUser = useQuery(api.users.getMe);
 
   const handleSendTextMsg = async (e: React.FormEvent) => {
@@ -26,13 +27,15 @@ const MessageInput = ({ selectedConversation }: MessageInputProps) => {
     if (!msgText.trim()) return;
 
     try {
-      await sendTextMsg({
+      const messageId = await sendTextMsg({
         content: msgText,
         conversationId: selectedConversation!._id,
-        sender: currentUser!._id,
+        senderId: currentUser!._id,
         senderName: currentUser?.name || "",
+        status: "sending",
       });
       setMsgText("");
+      await updateMessageStatus({ messageId, status: "sent" });
     } catch (error) {
       toast.error(
         error instanceof ConvexError ? error.data : "Unexpected error occurred"

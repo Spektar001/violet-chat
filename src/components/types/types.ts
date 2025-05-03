@@ -30,8 +30,10 @@ export interface IConversation {
     fileSize?: number;
     content: string;
     conversationId: Id<"conversations">;
+    status: "sending" | "sent" | "seen";
+    seenBy?: { userId: Id<"users">; seenAt: number }[];
     messageType: string;
-    sender: string;
+    senderId: Id<"users">;
     senderName: string;
   };
   participantName?: string;
@@ -56,6 +58,8 @@ export interface IMessage {
   content: string;
   _creationTime: number;
   messageType: string;
+  status: "sending" | "sent" | "seen";
+  seenBy?: { userId: Id<"users">; seenAt: number }[];
   sender: {
     _id: Id<"users">;
     image: string;
