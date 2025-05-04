@@ -43,3 +43,22 @@ export const formatDate = (timeStamp: number): string => {
 export const isSameDay = (timeStamp1: number, timeStamp2: number): boolean => {
   return dayjs(timeStamp1).isSame(dayjs(timeStamp2), "day");
 };
+
+export const formatSeenAt = (timeStamp: number): string => {
+  const messageDate = dayjs(timeStamp);
+  const now = dayjs();
+
+  if (messageDate.isToday()) {
+    return `today at ${messageDate.format("HH:mm")}`;
+  }
+
+  if (messageDate.isYesterday()) {
+    return `yesterday at ${messageDate.format("HH:mm")}`;
+  }
+
+  if (messageDate.isSame(now.subtract(2, "day"), "day")) {
+    return `${messageDate.format("MMMM")} ${messageDate.format("D")} at ${messageDate.format("HH:mm")}`;
+  }
+
+  return `${messageDate.format("DD.MM.YYYY")} at ${messageDate.format("HH:mm")}`;
+};

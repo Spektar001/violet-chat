@@ -60,7 +60,7 @@ export interface IMessage {
   messageType: string;
   status: "sending" | "sent" | "seen";
   seenBy?: { userId: Id<"users">; seenAt: number }[];
-  sender: {
+  sender?: {
     _id: Id<"users">;
     image: string;
     name?: string;

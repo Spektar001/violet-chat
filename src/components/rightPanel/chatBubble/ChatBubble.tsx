@@ -39,7 +39,7 @@ const ChatBubble = ({
   const isAdmin =
     selectedConversation?.admins?.includes(currentUser!._id) ?? false;
   const storageId = message.storageId || undefined;
-  const isMyMessage = currentUser._id === message.sender._id;
+  const isMyMessage = currentUser._id === message.sender?._id;
   const messageType = message?.messageType.split("/")[0];
   const otherUserId = selectedConversation.participants.find(
     (id) => id !== currentUser._id
@@ -61,7 +61,7 @@ const ChatBubble = ({
                   <div className="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-white" />
                 )}
                 <AvatarImage
-                  src={message.sender.image || "/placeholder.png"}
+                  src={message?.sender?.image || "/placeholder.png"}
                   className="object-cover rounded-full"
                 />
                 <AvatarFallback>
@@ -150,22 +150,25 @@ const ChatBubble = ({
                         alt="sending"
                       />
                     )}
-                    {message.status === "sent" && (
-                      <Image
-                        width={16}
-                        height={11}
-                        src="/msg-check.svg"
-                        alt="sent"
-                      />
-                    )}
-                    {message.status === "seen" && (
-                      <Image
-                        width={16}
-                        height={11}
-                        src="/msg-dblcheck.svg"
-                        alt="seen"
-                      />
-                    )}
+                    {message.status === "sent" &&
+                      (!message.seenBy || message.seenBy.length === 0) && (
+                        <Image
+                          width={16}
+                          height={11}
+                          src="/msg-check.svg"
+                          alt="sent"
+                        />
+                      )}
+                    {message.status === "seen" &&
+                      message.seenBy &&
+                      message.seenBy.length > 0 && (
+                        <Image
+                          width={16}
+                          height={11}
+                          src="/msg-dblcheck.svg"
+                          alt="seen"
+                        />
+                      )}
                   </p>
                 </div>
               </ContextMenuTrigger>

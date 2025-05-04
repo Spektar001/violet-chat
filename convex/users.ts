@@ -1,3 +1,4 @@
+import { IUser } from "@/components/types/types";
 import { ConvexError, v } from "convex/values";
 import { internalMutation, query } from "./_generated/server";
 
@@ -155,5 +156,20 @@ export const getGroupMembers = query({
     );
 
     return groupMembers;
+  },
+});
+
+export const getUsersByIds = query({
+  args: {
+    userIds: v.array(v.id("users")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    const users = await Promise.all(args.userIds.map((id) => ctx.db.get(id)));
+    return users.filter(Boolean) as IUser[];
   },
 });

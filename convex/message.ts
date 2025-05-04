@@ -69,6 +69,11 @@ export const updateMessageStatus = mutation({
       throw new ConvexError("Unauthorized");
     }
 
+    const message = await ctx.db.get(args.messageId);
+    if (!message) throw new ConvexError("Message not found");
+
+    if (message.status === "seen") return;
+
     await ctx.db.patch(args.messageId, {
       status: args.status,
     });
