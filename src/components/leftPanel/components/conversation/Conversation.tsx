@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ReactPlayer from "react-player";
 import { api } from "../../../../../convex/_generated/api";
+import UnseenCount from "../unseenCount/UnseenCount";
 
 type ConversationProps = {
   pathname: string;
@@ -25,7 +26,13 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
   const imageType = lastMessage?.messageType.split("/")[1];
 
   const currentUser = useQuery(api.users.getMe);
+  const unseenCount = useQuery(api.message.getUnseenMessageCount, {
+    conversationId: conversation._id,
+    currentUser: currentUser!._id,
+  });
+
   if (!currentUser) return null;
+
   const isAdmin = conversation?.admins?.includes(currentUser?._id) ?? false;
 
   const senderName =
@@ -65,7 +72,7 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
                 </span>
               </div>
               <p
-                className={`text-[12px] mt-1 flex items-center gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}
+                className={`text-[12px] mt-1 flex items-center justify-between gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}
               >
                 {lastMessageType === "text" &&
                   (conversation.isGroup ? (
@@ -144,6 +151,9 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
                     />
                     Video
                   </>
+                )}
+                {!activeBgClass && unseenCount?.length !== 0 && (
+                  <UnseenCount unseenCount={unseenCount} />
                 )}
               </p>
             </div>

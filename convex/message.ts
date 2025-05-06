@@ -121,3 +121,31 @@ export const markMessagesSeen = mutation({
     }
   },
 });
+
+export const getUnseenMessageCount = query({
+  args: {
+    conversationId: v.id("conversations"),
+    currentUser: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    const unseenMessages = await ctx.db
+      .query("messages")
+      .withIndex("by_conversationId", (q) =>
+        q.eq("conversationId", args.conversationId)
+      )
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("status"), "sent"),
+          q.neq(q.field("senderId"), args.currentUser)
+        )
+      )
+      .collect();
+
+    return unseenMessages;
+  },
+});
