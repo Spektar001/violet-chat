@@ -12,10 +12,12 @@ import Conversation from "./components/conversation/Conversation";
 const LeftPanel = () => {
   const pathname = usePathname().replace("/v/", "");
   const conversations = useQuery(api.conversations.getMyConversations);
+  const currentUser = useQuery(api.users.getMe);
 
   if (!conversations) {
     return <LeftPanelFallback />;
   }
+  if (!currentUser) return null;
 
   return (
     <div className="h-full w-1/4 border-r">
@@ -32,6 +34,7 @@ const LeftPanel = () => {
           <Conversation
             key={conversation._id}
             conversation={conversation}
+            currentUser={currentUser}
             pathname={pathname}
           />
         ))}

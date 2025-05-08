@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
+import { IConversation, IUser } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenuTrigger } from "@/components/ui/context-menu";
 import { formatTimeConversation } from "@/lib/utils";
@@ -16,22 +16,25 @@ import UnseenCount from "../unseenCount/UnseenCount";
 type ConversationProps = {
   pathname: string;
   conversation: IConversation;
+  currentUser: IUser;
 };
 
-const Conversation = ({ pathname, conversation }: ConversationProps) => {
+const Conversation = ({ pathname, conversation, currentUser }: ConversationProps) => {
   const conversationImage = conversation.groupImage || conversation.image;
   const conversationName = conversation.groupName || conversation.name;
   const lastMessage = conversation.lastMessage;
   const lastMessageType = lastMessage?.messageType.split("/")[0];
   const imageType = lastMessage?.messageType.split("/")[1];
 
-  const currentUser = useQuery(api.users.getMe);
+  // const currentUser = useQuery(api.users.getMe);
+  // if (!currentUser) return null;
+
   const unseenCount = useQuery(api.message.getUnseenMessageCount, {
     conversationId: conversation._id,
-    currentUser: currentUser!._id,
+    currentUser: currentUser._id,
   });
 
-  const isAdmin = conversation?.admins?.includes(currentUser!._id) ?? false;
+  const isAdmin = conversation?.admins?.includes(currentUser._id) ?? false;
 
   const senderName =
     lastMessage?.senderName === currentUser?.name
