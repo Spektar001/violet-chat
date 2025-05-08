@@ -1,6 +1,5 @@
 "use client";
 
-import { IUser } from "@/components/types/types";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Tooltip,
@@ -9,6 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatSeenAt } from "@/lib/utils";
+import { IUser } from "@/types/types";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 

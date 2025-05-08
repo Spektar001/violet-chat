@@ -1,5 +1,5 @@
-import { IMessage } from "@/components/types/types";
 import { Badge } from "@/components/ui/badge";
+import { IMessage } from "@/types/types";
 
 type Props = {
   unseenCount?: IMessage[];

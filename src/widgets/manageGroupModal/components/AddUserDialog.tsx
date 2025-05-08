@@ -1,6 +1,5 @@
 "use client";
 
-import { IUser } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { IUser } from "@/types/types";
 import Image from "next/image";
 import { useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";

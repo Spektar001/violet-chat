@@ -1,12 +1,12 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IConversation } from "@/types/types";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
@@ -9,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { IConversation } from "@/types/types";
 import { useMutation, useQuery } from "convex/react";
 import { Check, Star, StarOff, UserMinus, UserPlus, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";

@@ -4,8 +4,8 @@ import GroupMembersDialog from "@/components/rightPanel/groupMembersDialog/Group
 import MessageContainer from "@/components/rightPanel/messageContainer/MessageContainer";
 import MessageInput from "@/components/rightPanel/messageInput/MessageInput";
 import RightPanelFallback from "@/components/RightPanelFallback";
-import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { IConversation } from "@/types/types";
 import ChatOptionsDropdown from "@/widgets/сhatOptionsDropdown/ChatOptionsDropdown";
 import { useQuery } from "convex/react";
 import { ArrowLeft } from "lucide-react";

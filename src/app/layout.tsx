@@ -1,5 +1,5 @@
-import { ConvexClientProvider } from "@/components/providers/ConvexClientProvider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ConvexClientProvider } from "@/providers/ConvexClientProvider";
+import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";

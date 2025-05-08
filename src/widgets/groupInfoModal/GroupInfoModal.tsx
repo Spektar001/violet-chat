@@ -1,6 +1,5 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
@@ -8,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { IConversation } from "@/types/types";
 import { useQuery } from "convex/react";
 import { Users } from "lucide-react";
 import { api } from "../../../convex/_generated/api";

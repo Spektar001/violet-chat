@@ -1,9 +1,9 @@
 "use client";
 
-import { IConversation, IUser } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenuTrigger } from "@/components/ui/context-menu";
 import { formatTimeConversation } from "@/lib/utils";
+import { IConversation, IUser } from "@/types/types";
 import ChatContextMenu from "@/widgets/chatContextMenu/ChatContextMenu";
 import { ContextMenu } from "@radix-ui/react-context-menu";
 import { useQuery } from "convex/react";
@@ -19,15 +19,16 @@ type ConversationProps = {
   currentUser: IUser;
 };
 
-const Conversation = ({ pathname, conversation, currentUser }: ConversationProps) => {
+const Conversation = ({
+  pathname,
+  conversation,
+  currentUser,
+}: ConversationProps) => {
   const conversationImage = conversation.groupImage || conversation.image;
   const conversationName = conversation.groupName || conversation.name;
   const lastMessage = conversation.lastMessage;
   const lastMessageType = lastMessage?.messageType.split("/")[0];
   const imageType = lastMessage?.messageType.split("/")[1];
-
-  // const currentUser = useQuery(api.users.getMe);
-  // if (!currentUser) return null;
 
   const unseenCount = useQuery(api.message.getUnseenMessageCount, {
     conversationId: conversation._id,

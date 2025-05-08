@@ -1,7 +1,7 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
 import { Button } from "@/components/ui/button";
+import { IConversation } from "@/types/types";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
 import { SendHorizontal, Smile } from "lucide-react";

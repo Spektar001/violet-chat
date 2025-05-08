@@ -1,4 +1,4 @@
-import { Id } from "../../../convex/_generated/dataModel";
+import { Id } from "../../convex/_generated/dataModel";
 
 export interface IConversation {
   _creationTime: number;

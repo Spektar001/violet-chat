@@ -1,6 +1,6 @@
 "use client";
 
-import { IConversation, IUser } from "@/components/types/types";
+import { IConversation, IUser } from "@/types/types";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
 import Image from "next/image";

@@ -1,4 +1,4 @@
-import { IUser } from "@/components/types/types";
+import { IUser } from "@/types/types";
 import { ConvexError, v } from "convex/values";
 import { internalMutation, query } from "./_generated/server";
 

@@ -1,10 +1,10 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
 import {
   ContextMenuContent,
   ContextMenuItem,
 } from "@/components/ui/context-menu";
+import { IConversation } from "@/types/types";
 import { Eraser, LogOut, Trash } from "lucide-react";
 import { useState } from "react";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";

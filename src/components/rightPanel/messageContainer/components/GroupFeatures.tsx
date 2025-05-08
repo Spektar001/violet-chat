@@ -1,6 +1,6 @@
 "use client";
 
-import { IUser } from "@/components/types/types";
+import { IUser } from "@/types/types";
 import { useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Id } from "../../../../../convex/_generated/dataModel";

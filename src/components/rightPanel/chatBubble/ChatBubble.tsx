@@ -1,6 +1,5 @@
 "use client";
 
-import { IConversation, IMessage, IUser } from "@/components/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import {
@@ -11,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { formatTime } from "@/lib/utils";
+import { IConversation, IMessage, IUser } from "@/types/types";
 import MessageContextMenu from "@/widgets/messageContextMenu/MessageContextMenu";
 import saveAs from "file-saver";
 import { File } from "lucide-react";

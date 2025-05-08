@@ -1,12 +1,12 @@
 "use client";
 
-import { IConversation } from "@/components/types/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IConversation } from "@/types/types";
 import {
   EllipsisVertical,
   Eraser,

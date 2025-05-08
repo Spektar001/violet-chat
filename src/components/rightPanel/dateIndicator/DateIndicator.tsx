@@ -1,5 +1,5 @@
-import { IMessage } from "@/components/types/types";
 import { formatDate, isSameDay } from "@/lib/utils";
+import { IMessage } from "@/types/types";
 
 type DateIndicatorProps = {
   message: IMessage;
