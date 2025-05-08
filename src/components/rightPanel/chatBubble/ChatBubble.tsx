@@ -118,7 +118,7 @@ const ChatBubble = ({
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <div
-                  className={`relative max-w-[70%] min-w-[10%] flex flex-col gap-1 z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+                  className={`relative max-w-[70%] min-w-[10%] flex flex-col z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
                 >
                   {messageType === "text" && <TextMessage message={message} />}
                   {messageType === "video" && (
