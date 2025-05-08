@@ -31,9 +31,7 @@ const Conversation = ({ pathname, conversation }: ConversationProps) => {
     currentUser: currentUser!._id,
   });
 
-  if (!currentUser) return null;
-
-  const isAdmin = conversation?.admins?.includes(currentUser?._id) ?? false;
+  const isAdmin = conversation?.admins?.includes(currentUser!._id) ?? false;
 
   const senderName =
     lastMessage?.senderName === currentUser?.name
