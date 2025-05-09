@@ -29,7 +29,7 @@ const LeftPanel = () => {
           <ThemeSwitch />
         </div>
       </div>
-      <div className="p-3 flex flex-col gap-1 h-[calc(100%-4rem)] scroll-smooth overflow-auto">
+      <div className="py-3 flex flex-col h-[calc(100%-4rem)] scroll-smooth overflow-auto">
         {conversations?.map((conversation) => (
           <Conversation
             key={conversation._id}

@@ -70,7 +70,7 @@ const Conversation = ({
       <ContextMenu>
         <ContextMenuTrigger>
           <div
-            className={`flex gap-2 items-start p-3 rounded-2xl duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100 dark:hover:bg-white/10"} `}
+            className={`flex gap-2 items-start p-3 duration-300 cursor-pointer ${activeBgClass ? "bg-[#AF57DB] text-white" : "hover:bg-violet-100 dark:hover:bg-white/10"} `}
           >
             <Avatar className="overflow-visible relative">
               <AvatarImage
