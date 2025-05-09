@@ -8,6 +8,7 @@ import { formatSeenAt } from "@/lib/utils";
 import { useQuery } from "convex/react";
 import saveAs from "file-saver";
 import { ArrowDownToLine, Copy, Trash } from "lucide-react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useState } from "react";
 import { api } from "../../../convex/_generated/api";
@@ -34,6 +35,7 @@ const MessageContextMenu = ({
   messageType,
   otherUserId,
 }: Props) => {
+  const { resolvedTheme } = useTheme();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const typeFile =
     messageType === "image" ||
@@ -151,8 +153,12 @@ const MessageContextMenu = ({
                     <Image
                       width={16}
                       height={11}
-                      src="/msg-black-dblcheck.svg"
-                      alt="msg-black-dblcheck"
+                      src={
+                        resolvedTheme === "dark"
+                          ? "/msg-dblcheck.svg"
+                          : "/msg-black-dblcheck.svg"
+                      }
+                      alt="msg-dblcheck"
                     />
                     <p>{formatSeenAt(message.seenBy[0].seenAt)}</p>
                   </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
@@ -75,6 +75,9 @@ const MessageSeenBy = ({ seenUsers, seenByMap }: MessageSeenByProps) => {
                             src={user?.image || "/placeholder.png"}
                             className="object-cover rounded-full"
                           />
+                          <AvatarFallback>
+                            <div className="animate-pulse bg-gray-tertiary w-8 h-8 rounded-full"></div>
+                          </AvatarFallback>
                         </Avatar>
                         <div>
                           <p>{user?.name}</p>
