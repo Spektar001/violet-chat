@@ -42,7 +42,28 @@ const Conversation = ({
       ? "You"
       : lastMessage?.senderName.trim();
 
-  const activeBgClass = conversation._id === pathname;
+  const activeBgClass: boolean = conversation._id === pathname;
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "sending":
+        return "/clock.svg";
+      case "sent":
+        if (!activeBgClass) {
+          return "/msg-gray-check.svg";
+        } else {
+          return "/msg-check.svg";
+        }
+      case "seen":
+        if (!activeBgClass) {
+          return "/msg-gray-dblcheck.svg";
+        } else {
+          return "/msg-dblcheck.svg";
+        }
+      default:
+        return "/clock.svg";
+    }
+  };
 
   return (
     <Link href={`/v/${conversation._id}`}>
@@ -65,13 +86,22 @@ const Conversation = ({
                 <h3 className="text-xs lg:text-sm font-medium">
                   {conversationName}
                 </h3>
-                <span
-                  className={`text-[10px] lg:text-xs ${activeBgClass ? "text-white" : "text-gray-500"} ml-auto`}
+                <div
+                  className={`flex gap-1 text-[10px] lg:text-xs ${activeBgClass ? "text-white" : "text-gray-500"} ml-auto`}
                 >
+                  {!conversation.isGroup &&
+                    lastMessage?.senderId === currentUser._id && (
+                      <Image
+                        width={16}
+                        height={11}
+                        src={getStatusIcon(lastMessage?.status)}
+                        alt="checkIcon"
+                      />
+                    )}
                   {formatTimeConversation(
                     lastMessage?._creationTime || conversation._creationTime
                   )}
-                </span>
+                </div>
               </div>
               <p
                 className={`text-[12px] mt-1 flex items-center justify-between gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}

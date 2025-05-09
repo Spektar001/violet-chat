@@ -44,7 +44,7 @@ const MessageInput = ({ selectedConversation }: MessageInputProps) => {
   };
 
   return (
-    <div className="py-3 px-5 border-t flex gap-3">
+    <div className="py-3 px-5 border-t dark:border-none flex gap-3">
       <div className="flex items-end gap-3 mb-2">
         <Smile />
         <MediaDropdown conversationId={selectedConversation._id} />
@@ -63,7 +63,7 @@ const MessageInput = ({ selectedConversation }: MessageInputProps) => {
             rows={1}
             maxRows={3}
             placeholder="Type a message..."
-            className="min-h-full w-full resize-none border-0 outline-0 p-1.5"
+            className="min-h-full w-full resize-none border-0 outline-0 p-1.5 bg-inherit"
           />
         </div>
         <div className="self-end">

@@ -20,7 +20,7 @@ const LeftPanel = () => {
   if (!currentUser) return null;
 
   return (
-    <div className="h-full w-1/4 border-r">
+    <div className="h-full w-1/4 border-r dark:border-black">
       <div className="p-3 flex justify-between items-center">
         <UserButton />
 

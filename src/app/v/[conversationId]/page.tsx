@@ -38,7 +38,7 @@ const ConversationPage = ({ params }: Props) => {
 
   return (
     <div className="w-3/4 h-full flex flex-col">
-      <div className="py-3 px-5 flex justify-between items-center border-b">
+      <div className="py-3 px-5 flex justify-between items-center border-b dark:border-none">
         <div className="flex items-center gap-3">
           <Link href={"/v"}>
             <ArrowLeft className="mr-3 text-gray-400 hover:text-primary transition-colors duration-300" />
