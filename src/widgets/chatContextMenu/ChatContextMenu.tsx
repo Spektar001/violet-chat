@@ -4,9 +4,12 @@ import {
   ContextMenuContent,
   ContextMenuItem,
 } from "@/components/ui/context-menu";
-import { IConversation } from "@/types/types";
-import { Eraser, LogOut, Trash } from "lucide-react";
+import { IConversation, IUser } from "@/types/types";
+import { useMutation } from "convex/react";
+import { Eraser, LogOut, MessageCircle, Trash } from "lucide-react";
 import { useState } from "react";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 import ClearHistoryModal from "../clearHistoryModal/clearHistoryModal";
 import DeleteChatModal from "../DeleteChatModal/DeleteChatModal";
 import LeaveUserModal from "../leaveUserModal/LeaveUserModal";
@@ -14,12 +17,26 @@ import LeaveUserModal from "../leaveUserModal/LeaveUserModal";
 type Props = {
   isAdmin: boolean;
   conversation: IConversation;
+  currentUser: IUser;
 };
 
-const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
+const ChatContextMenu = ({ isAdmin, conversation, currentUser }: Props) => {
   const [isClearHistoryModalOpen, setClearHistoryModalOpen] = useState(false);
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
   const [isLeaveUserModal, setLeaveUserModal] = useState(false);
+
+  const markMessagesSeen = useMutation(api.message.markMessagesSeen);
+
+  const handleMessagesSeen = async (
+    conversationId: Id<"conversations">,
+    userId: Id<"users">
+  ) => {
+    try {
+      await markMessagesSeen({ conversationId, userId });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -56,6 +73,15 @@ const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
       )}
       {conversation.isGroup ? (
         <ContextMenuContent>
+          <ContextMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              handleMessagesSeen(conversation._id, currentUser._id);
+            }}
+          >
+            <MessageCircle size={15} className="text-gray-700 mr-3" />
+            Mark as read
+          </ContextMenuItem>
           {isAdmin && (
             <ContextMenuItem
               onClick={(e) => {
@@ -92,6 +118,15 @@ const ChatContextMenu = ({ isAdmin, conversation }: Props) => {
         </ContextMenuContent>
       ) : (
         <ContextMenuContent>
+          <ContextMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              handleMessagesSeen(conversation._id, currentUser._id);
+            }}
+          >
+            <MessageCircle size={15} className="text-gray-700 mr-3" />
+            Mark as read
+          </ContextMenuItem>
           <ContextMenuItem
             onClick={(e) => {
               e.stopPropagation();

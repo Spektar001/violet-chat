@@ -191,7 +191,11 @@ const Conversation = ({
             </div>
           </div>
         </ContextMenuTrigger>
-        <ChatContextMenu isAdmin={isAdmin} conversation={conversation} />
+        <ChatContextMenu
+          isAdmin={isAdmin}
+          conversation={conversation}
+          currentUser={currentUser}
+        />
       </ContextMenu>
     </Link>
   );
