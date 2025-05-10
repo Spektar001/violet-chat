@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { IConversation } from "@/types/types";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
-import { SendHorizontal, Smile } from "lucide-react";
+import { SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
 import { api } from "../../../../convex/_generated/api";
+import EmojiPickerButton from "./components/emojiPickerButton/EmojiPickerButton";
 import MediaDropdown from "./components/mediaDropdown/MediaDropdown";
 
 type MessageInputProps = {
@@ -44,9 +45,9 @@ const MessageInput = ({ selectedConversation }: MessageInputProps) => {
   };
 
   return (
-    <div className="py-3 px-5 border-t dark:border-none flex gap-3">
+    <div className="relative py-3 px-5 border-t dark:border-none flex gap-3">
       <div className="flex items-end gap-3 mb-2">
-        <Smile />
+        <EmojiPickerButton setMsgText={setMsgText} />
         <MediaDropdown conversationId={selectedConversation._id} />
       </div>
       <form onSubmit={handleSendTextMsg} className="w-full flex gap-3">
