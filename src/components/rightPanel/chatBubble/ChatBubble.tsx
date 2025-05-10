@@ -140,7 +140,7 @@ const ChatBubble = ({
                       onClose={() => setOpen(false)}
                     />
                   )}
-                  <p className="text-sm flex gap-1 items-center justify-end">
+                  <p className="text-sm flex gap-2 items-center justify-end">
                     {formatTime(message._creationTime)}
                     {message.status === "sending" && (
                       <Image
