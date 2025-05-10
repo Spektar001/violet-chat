@@ -1,7 +1,7 @@
 "use client";
 
 import Picker from "@emoji-mart/react";
-import { Laugh } from "lucide-react";
+import { Smile } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -24,7 +24,7 @@ const EmojiPickerButton = ({ setMsgText }: Props) => {
 
   return (
     <>
-      <Laugh
+      <Smile
         onClick={() => {
           setOpen((prev) => !prev);
         }}
