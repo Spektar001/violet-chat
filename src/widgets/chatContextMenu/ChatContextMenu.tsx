@@ -25,6 +25,9 @@ const ChatContextMenu = ({ isAdmin, conversation, currentUser }: Props) => {
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
   const [isLeaveUserModal, setLeaveUserModal] = useState(false);
 
+  console.log(conversation);
+  
+
   const markMessagesSeen = useMutation(api.message.markMessagesSeen);
 
   const handleMessagesSeen = async (
@@ -43,7 +46,7 @@ const ChatContextMenu = ({ isAdmin, conversation, currentUser }: Props) => {
       {isClearHistoryModalOpen && (
         <ClearHistoryModal
           conversationId={conversation._id}
-          participantName={conversation.participantName}
+          participantName={conversation.name}
           groupName={conversation.groupName}
           isGroup={conversation.isGroup}
           isOpen={isClearHistoryModalOpen}
@@ -54,8 +57,8 @@ const ChatContextMenu = ({ isAdmin, conversation, currentUser }: Props) => {
         <DeleteChatModal
           conversationId={conversation._id}
           groupImage={conversation.groupImage}
-          participantImage={conversation.otherUser?.image}
-          participantName={conversation.participantName?.trim()}
+          participantImage={conversation.image}
+          participantName={conversation.name?.trim()}
           groupName={conversation.groupName}
           isGroup={conversation.isGroup}
           isOpen={isDeleteChatModal}

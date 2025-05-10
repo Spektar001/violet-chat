@@ -59,7 +59,7 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
       {isClearHistoryModalOpen && (
         <ClearHistoryModal
           conversationId={conversation._id}
-          participantName={conversation.participantName}
+          participantName={conversation.otherUser?.name}
           groupName={conversation.groupName}
           isGroup={conversation.isGroup}
           isOpen={isClearHistoryModalOpen}
@@ -71,7 +71,7 @@ const ChatOptionsDropdown = ({ isAdmin, conversation }: Props) => {
           conversationId={conversation._id}
           groupImage={conversation.groupImage}
           participantImage={conversation.otherUser?.image}
-          participantName={conversation.participantName?.trim()}
+          participantName={conversation.otherUser?.name.trim()}
           groupName={conversation.groupName}
           isGroup={conversation.isGroup}
           isOpen={isDeleteChatModal}
