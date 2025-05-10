@@ -32,7 +32,7 @@ const ConversationPage = ({ params }: Props) => {
   }
 
   const conversationName =
-    conversation?.participantName || conversation?.groupName;
+    conversation?.otherUser?.name || conversation?.groupName;
   const conversationImage =
     conversation?.otherUser?.image || conversation?.groupImage;
 
