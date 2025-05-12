@@ -25,9 +25,6 @@ const ChatContextMenu = ({ isAdmin, conversation, currentUser }: Props) => {
   const [isDeleteChatModal, setDeleteChatModal] = useState(false);
   const [isLeaveUserModal, setLeaveUserModal] = useState(false);
 
-  console.log(conversation);
-  
-
   const markMessagesSeen = useMutation(api.message.markMessagesSeen);
 
   const handleMessagesSeen = async (
