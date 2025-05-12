@@ -133,18 +133,17 @@ export const getUnseenMessageCount = query({
       throw new ConvexError("Unauthorized");
     }
 
-    const unseenMessages = await ctx.db
+    const allMessages = await ctx.db
       .query("messages")
       .withIndex("by_conversationId", (q) =>
         q.eq("conversationId", args.conversationId)
       )
-      .filter((q) =>
-        q.and(
-          q.eq(q.field("status"), "sent"),
-          q.neq(q.field("senderId"), args.currentUser)
-        )
-      )
+      .filter((q) => q.neq(q.field("senderId"), args.currentUser))
       .collect();
+
+    const unseenMessages = allMessages.filter(
+      (msg) => !msg.seenBy?.some((entry) => entry.userId === args.currentUser)
+    );
 
     return unseenMessages;
   },
