@@ -1,5 +1,6 @@
 import { ConvexClientProvider } from "@/providers/ConvexClientProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
@@ -28,7 +29,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexClientProvider>
+            <Analytics />
+            {children}
+          </ConvexClientProvider>
         </ThemeProvider>
       </body>
     </html>
