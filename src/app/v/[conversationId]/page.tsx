@@ -37,7 +37,7 @@ const ConversationPage = ({ params }: Props) => {
     conversation?.otherUser?.image || conversation?.groupImage;
 
   return (
-    <div className="w-3/4 h-full flex flex-col">
+    <div className="w-3/4 h-full flex flex-col page-id">
       <div className="py-3 px-5 flex justify-between items-center border-b dark:border-none">
         <div className="flex items-center gap-3">
           <Link href={"/v"}>

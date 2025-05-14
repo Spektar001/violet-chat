@@ -85,3 +85,30 @@ body {
     border-radius: 20px;
   }
 }
+
+@media (max-width: 960px) {
+  .left-panel {
+    width: 35%;
+  }
+}
+
+@media (max-width: 800px) {
+  .page-id {
+    width: 100%;
+  }
+}
+
+@media (max-width: 720px) {
+  .left-panel {
+    width: 40%;
+  }
+}
+
+@media (max-width: 651px) {
+  .left-panel {
+    width: 100%;
+  }
+  .chat-Place-Holder {
+    display: none;
+  }
+}
