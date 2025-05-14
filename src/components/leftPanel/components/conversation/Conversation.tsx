@@ -103,91 +103,93 @@ const Conversation = ({
                   )}
                 </div>
               </div>
-              <p
-                className={`text-[12px] mt-1 flex items-center justify-between gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}
-              >
-                {lastMessageType === "text" &&
-                  (conversation.isGroup ? (
-                    <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                      {senderName}: {lastMessage?.content}
-                    </span>
-                  ) : (
-                    <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                      {lastMessage?.content}
-                    </span>
-                  ))}
-                {lastMessageType === "application" &&
-                  (conversation.isGroup ? (
-                    <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                      {senderName}: {lastMessage?.fileName}
-                    </span>
-                  ) : (
-                    <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                      {lastMessage?.fileName}
-                    </span>
-                  ))}
-                {lastMessageType === "image" &&
-                  imageType !== "gif" &&
-                  (conversation.isGroup ? (
+              <div className="flex items-center justify-between">
+                <p
+                  className={`text-[12px] mt-1 flex items-center gap-1 ${activeBgClass ? "text-white" : "text-gray-500"} `}
+                >
+                  {lastMessageType === "text" &&
+                    (conversation.isGroup ? (
+                      <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                        {senderName}: {lastMessage?.content}
+                      </span>
+                    ) : (
+                      <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                        {lastMessage?.content}
+                      </span>
+                    ))}
+                  {lastMessageType === "application" &&
+                    (conversation.isGroup ? (
+                      <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                        {senderName}: {lastMessage?.fileName}
+                      </span>
+                    ) : (
+                      <span className="text-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                        {lastMessage?.fileName}
+                      </span>
+                    ))}
+                  {lastMessageType === "image" &&
+                    imageType !== "gif" &&
+                    (conversation.isGroup ? (
+                      <>
+                        {senderName}:{" "}
+                        <Image
+                          className="rounded-sm h-5"
+                          src={lastMessage?.content || ""}
+                          width={20}
+                          height={25}
+                          alt={"image"}
+                        />
+                      </>
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        <Image
+                          className="rounded-sm h-5"
+                          src={lastMessage?.content || ""}
+                          width={20}
+                          height={25}
+                          alt={"image"}
+                        />
+                        Photo
+                      </span>
+                    ))}
+                  {!conversation.isGroup && imageType === "gif" && (
+                    <span className="uppercase">GIF</span>
+                  )}
+                  {imageType === "gif" && conversation.isGroup && (
+                    <>
+                      {senderName}: <span className="uppercase">GIF</span>
+                    </>
+                  )}
+                  {lastMessageType === "video" && conversation.isGroup && (
                     <>
                       {senderName}:{" "}
-                      <Image
-                        className="rounded-sm h-5"
-                        src={lastMessage?.content || ""}
-                        width={20}
-                        height={25}
-                        alt={"image"}
+                      <ReactPlayer
+                        url={lastMessage?.content}
+                        width="30px"
+                        height="20px"
+                        controls={false}
+                        light={false}
                       />
+                      Video
                     </>
-                  ) : (
-                    <span className="flex items-center gap-1">
-                      <Image
-                        className="rounded-sm h-5"
-                        src={lastMessage?.content || ""}
-                        width={20}
-                        height={25}
-                        alt={"image"}
+                  )}
+                  {!conversation.isGroup && lastMessageType === "video" && (
+                    <>
+                      <ReactPlayer
+                        url={lastMessage?.content}
+                        width="30px"
+                        height="20px"
+                        controls={false}
+                        light={false}
                       />
-                      Photo
-                    </span>
-                  ))}
-                {!conversation.isGroup && imageType === "gif" && (
-                  <span className="uppercase">GIF</span>
-                )}
-                {imageType === "gif" && conversation.isGroup && (
-                  <>
-                    {senderName}: <span className="uppercase">GIF</span>
-                  </>
-                )}
-                {lastMessageType === "video" && conversation.isGroup && (
-                  <>
-                    {senderName}:{" "}
-                    <ReactPlayer
-                      url={lastMessage?.content}
-                      width="30px"
-                      height="20px"
-                      controls={false}
-                      light={false}
-                    />
-                    Video
-                  </>
-                )}
-                {!conversation.isGroup && lastMessageType === "video" && (
-                  <>
-                    <ReactPlayer
-                      url={lastMessage?.content}
-                      width="30px"
-                      height="20px"
-                      controls={false}
-                      light={false}
-                    />
-                    Video
-                  </>
-                )}
+                      Video
+                    </>
+                  )}
+                </p>
                 {!activeBgClass && unseenCount?.length !== 0 && (
                   <UnseenCount unseenCount={unseenCount} />
                 )}
-              </p>
+              </div>
             </div>
           </div>
         </ContextMenuTrigger>
