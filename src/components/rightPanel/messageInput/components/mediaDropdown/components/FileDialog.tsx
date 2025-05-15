@@ -20,6 +20,7 @@ type FileDialogProps = {
   isLoading: boolean;
   handleSendFile: () => void;
   fileType: string;
+  onImageSize?: (size: { width: number; height: number }) => void;
 };
 
 const FileDialog = ({
@@ -29,8 +30,15 @@ const FileDialog = ({
   isLoading,
   handleSendFile,
   fileType,
+  onImageSize,
 }: FileDialogProps) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [imageSize, setImageSize] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
+  const [ready, setReady] = useState(false);
+
   const previewVideo = URL.createObjectURL(
     new Blob([selectedFile], { type: selectedFile.type })
   );
@@ -43,6 +51,19 @@ const FileDialog = ({
     reader.onload = (e) => setPreview(e.target?.result as string);
     reader.readAsDataURL(selectedFile);
   }, [selectedFile]);
+
+  useEffect(() => {
+    if (!preview) return;
+
+    const img = new window.Image();
+    img.onload = () => {
+      const size = { width: img.naturalWidth, height: img.naturalHeight };
+      setImageSize(size);
+      setReady(true);
+      onImageSize?.(size);
+    };
+    img.src = preview;
+  }, [preview]);
 
   const formatFileSize = (size: number) => {
     if (size < 1024) return `${size} B`;
@@ -68,13 +89,14 @@ const FileDialog = ({
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="flex flex-col gap-4">
-          {type === "image" && preview && (
+          {type === "image" && preview && ready && imageSize && (
             <div className="flex justify-center items-center">
               <Image
                 src={preview}
-                width={400}
-                height={300}
+                width={imageSize?.width}
+                height={imageSize?.height}
                 alt="selected image"
+                className="object-contain max-h-[400px]"
               />
             </div>
           )}
@@ -98,13 +120,15 @@ const FileDialog = ({
             </div>
           )}
           <div className="flex items-center justify-end gap-10">
-            <Button variant="ghost" className="text-gray-500" disabled={isLoading} onClick={onClose}>
+            <Button
+              variant="ghost"
+              className="text-gray-500"
+              disabled={isLoading}
+              onClick={onClose}
+            >
               Cancel
             </Button>
-            <Button
-              disabled={isLoading}
-              onClick={handleSendFile}
-            >
+            <Button disabled={isLoading} onClick={handleSendFile}>
               {isLoading ? "Sending..." : "Send"}
             </Button>
           </div>

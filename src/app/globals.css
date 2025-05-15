@@ -92,7 +92,7 @@ body {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 899px) {
   .page-id {
     width: 100%;
   }
@@ -110,5 +110,15 @@ body {
   }
   .chat-Place-Holder {
     display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .width-image {
+    max-width: 100%;
+  }
+  .size-image {
+    max-width: 100%;
+    max-height: 100%;
   }
 }

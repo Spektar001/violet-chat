@@ -28,6 +28,7 @@ export interface IConversation {
     storageId?: Id<"_storage">;
     fileName?: string;
     fileSize?: number;
+    imageSize?: { width: number; height: number };
     content: string;
     conversationId: Id<"conversations">;
     status: "sending" | "sent" | "seen";
@@ -55,6 +56,7 @@ export interface IMessage {
   storageId?: Id<"_storage">;
   fileName?: string;
   fileSize?: number;
+  imageSize?: { width: number; height: number };
   content: string;
   _creationTime: number;
   messageType: string;

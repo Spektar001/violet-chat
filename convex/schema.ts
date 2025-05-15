@@ -25,6 +25,12 @@ export default defineSchema({
     storageId: v.optional(v.id("_storage")),
     fileName: v.optional(v.string()),
     fileSize: v.optional(v.number()),
+    imageSize: v.optional(
+      v.object({
+        width: v.number(),
+        height: v.number(),
+      })
+    ),
     senderId: v.id("users"),
     senderName: v.string(),
     content: v.string(),

@@ -23,6 +23,10 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
   const fileInput = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [imageSize, setImageSize] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
   const sendFile = useMutation(api.messages.sendFile);
@@ -51,6 +55,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
         messageType: selectedFile.type,
         fileName: selectedFile.name,
         fileSize: selectedFile.size,
+        imageSize: imageSize ?? undefined,
         status: "sending",
       });
 
@@ -83,6 +88,7 @@ const MediaDropdown = ({ conversationId }: MediaDropdownProps) => {
           isLoading={isLoading}
           handleSendFile={handleSendFile}
           fileType={selectedFile.type}
+          onImageSize={(size) => setImageSize(size)}
         />
       )}
 

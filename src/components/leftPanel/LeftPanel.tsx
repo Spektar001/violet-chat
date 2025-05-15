@@ -29,7 +29,7 @@ const LeftPanel = () => {
   }
   if (!currentUser) return null;
 
-  const shouldHidePanel = windowWidth < 721 && pathname !== "/v";
+  const shouldHidePanel = windowWidth < 899 && pathname !== "/v";
 
   if (shouldHidePanel) return null;
 

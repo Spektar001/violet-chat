@@ -103,6 +103,12 @@ export const sendFile = mutation({
     conversationId: v.id("conversations"),
     fileName: v.string(),
     fileSize: v.optional(v.number()),
+    imageSize: v.optional(
+      v.object({
+        width: v.number(),
+        height: v.number(),
+      })
+    ),
     status: v.union(v.literal("sending")),
   },
   handler: async (ctx, args) => {
@@ -122,6 +128,7 @@ export const sendFile = mutation({
       storageId: args.storageId,
       fileName: args.fileName,
       fileSize: args.fileSize,
+      imageSize: args.imageSize,
       status: args.status,
     });
 

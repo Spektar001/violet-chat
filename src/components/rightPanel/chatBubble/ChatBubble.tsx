@@ -72,7 +72,7 @@ const ChatBubble = ({
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <div
-                  className={`relative flex flex-col z-20 max-w-[70%] min-w-[10%] p-2 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+                  className={`relative flex flex-col z-20 max-w-[70%] min-w-[10%] p-2 rounded-e-2xl rounded-bl-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass} width-image`}
                 >
                   {messageType === "text" && <TextMessage message={message} />}
                   {messageType === "video" && (
@@ -90,6 +90,7 @@ const ChatBubble = ({
                   {open && (
                     <ImageDialog
                       src={message.content}
+                      imageSize={message?.imageSize}
                       open={open}
                       onClose={() => setOpen(false)}
                     />
@@ -118,7 +119,7 @@ const ChatBubble = ({
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <div
-                  className={`relative max-w-[70%] min-w-[10%] flex flex-col z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass}`}
+                  className={`relative max-w-[70%] min-w-[10%] flex flex-col z-20 p-2 rounded-s-2xl rounded-tr-2xl shadow-md text-wrap whitespace-pre-wrap break-all break-words ${bgClass} width-image`}
                 >
                   {messageType === "text" && <TextMessage message={message} />}
                   {messageType === "video" && (
@@ -136,6 +137,7 @@ const ChatBubble = ({
                   {open && (
                     <ImageDialog
                       src={message.content}
+                      imageSize={message.imageSize}
                       open={open}
                       onClose={() => setOpen(false)}
                     />
@@ -199,11 +201,11 @@ const ImageMessage = ({
   handleClick: () => void;
 }) => {
   return (
-    <div className="w-[250px] h-[250px] relative">
+    <div className="w-[250px] h-[250px] relative size-image">
       <Image
         src={message.content}
         fill
-        className="cursor-pointer object-cover rounded-2xl"
+        className="cursor-pointer object-cover rounded-lg"
         alt="image"
         onClick={handleClick}
       />
@@ -234,11 +236,13 @@ const TextMessage = ({ message }: { message: IMessage }) => {
 
 const ImageDialog = ({
   src,
+  imageSize,
   onClose,
   open,
 }: {
   open: boolean;
   src: string;
+  imageSize?: { width: number; height: number };
   onClose: () => void;
 }) => {
   return (
@@ -248,12 +252,20 @@ const ImageDialog = ({
         if (!isOpen) onClose();
       }}
     >
-      <DialogContent className="min-w-[750px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle></DialogTitle>
         </DialogHeader>
-        <DialogDescription className="relative h-[450px] flex justify-center">
-          <Image src={src} fill className="object-contain" alt="image" />
+        <DialogDescription>
+          <div className="flex justify-center items-center">
+            <Image
+              src={src}
+              width={imageSize?.width}
+              height={imageSize?.height}
+              className="object-contain max-h-[400px]"
+              alt="image"
+            />
+          </div>
         </DialogDescription>
       </DialogContent>
     </Dialog>
@@ -262,11 +274,11 @@ const ImageDialog = ({
 
 const VideoMessage = ({ message }: { message: IMessage }) => {
   return (
-    <div className="rounded-2xl">
+    <div className="relative w-full max-w-[445px] aspect-video rounded-lg overflow-hidden cursor-pointer">
       <ReactPlayer
         url={message.content}
-        width="450px"
-        height="250px"
+        width="100%"
+        height="100%"
         controls={true}
         light={false}
       />
