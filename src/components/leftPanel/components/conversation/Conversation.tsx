@@ -34,6 +34,7 @@ const Conversation = ({
     conversationId: conversation._id,
     currentUser: currentUser._id,
   });
+  if (!unseenCount) return null;
 
   const isAdmin = conversation?.admins?.includes(currentUser._id) ?? false;
 
