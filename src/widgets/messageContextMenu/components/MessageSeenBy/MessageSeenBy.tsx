@@ -24,25 +24,37 @@ const MessageSeenBy = ({ seenUsers, seenByMap }: MessageSeenByProps) => {
     <>
       <div className="text-sm mt-1 px-3 py-1.5 border-t cursor-default">
         {seenUsers.length === 1 ? (
-          <div className="flex gap-2 items-center text-sm">
-            <Image
-              width={16}
-              height={11}
-              src={
-                resolvedTheme === "dark"
-                  ? "/msg-dblcheck.svg"
-                  : "/msg-black-dblcheck.svg"
-              }
-              alt="msg-dblcheck"
-            />
-            {seenUsers[0]?.name}
-            <Avatar className="overflow-visible relative w-6 h-6">
-              <AvatarImage
-                src={seenUsers[0]?.image || "/placeholder.png"}
-                className="object-cover rounded-full"
-              />
-            </Avatar>
-          </div>
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger className="flex gap-2 items-center text-sm">
+                <Image
+                  width={16}
+                  height={11}
+                  src={
+                    resolvedTheme === "dark"
+                      ? "/msg-dblcheck.svg"
+                      : "/msg-black-dblcheck.svg"
+                  }
+                  alt="msg-dblcheck"
+                />
+                {seenUsers[0]?.name}
+                <Avatar className="overflow-visible relative w-6 h-6">
+                  <AvatarImage
+                    src={seenUsers[0]?.image || "/placeholder.png"}
+                    className="object-cover rounded-full"
+                  />
+                </Avatar>
+              </TooltipTrigger>
+              <TooltipContent
+                align="start"
+                side="left"
+                sideOffset={16}
+                className="text-sm text-gray-400"
+              >
+                {formatSeenAt(seenByMap.get(seenUsers[0]._id)!)}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ) : (
           <TooltipProvider delayDuration={100}>
             <Tooltip>

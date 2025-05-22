@@ -69,7 +69,7 @@ const MessageContainer = ({ selectedConversation }: MessageContainerProps) => {
   useEffect(() => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    }, 500);
   }, [messages]);
 
   useEffect(() => {
