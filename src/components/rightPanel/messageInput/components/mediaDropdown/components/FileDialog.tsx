@@ -129,7 +129,16 @@ const FileDialog = ({
               Cancel
             </Button>
             <Button disabled={isLoading} onClick={handleSendFile}>
-              {isLoading ? "Sending..." : "Send"}
+              {isLoading ? (
+                <Image
+                  src={"/spinner.svg"}
+                  width={24}
+                  height={24}
+                  alt={"spinner"}
+                />
+              ) : (
+                "Send"
+              )}
             </Button>
           </div>
         </DialogDescription>
