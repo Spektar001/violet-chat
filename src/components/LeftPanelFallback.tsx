@@ -2,7 +2,7 @@ import { Skeleton } from "./ui/skeleton";
 
 const LeftPanelFallback = () => {
   return (
-    <div className="h-full w-1/4 border-r">
+    <div className="h-full w-1/4 border-r left-panel">
       <div className="p-3 flex justify-between items-center border-b">
         <Skeleton className="w-10 h-10 rounded-full animate-pulse duration-700" />
         <div className="flex items-center gap-3">

@@ -24,14 +24,15 @@ const LeftPanel = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!conversations) {
-    return <LeftPanelFallback />;
-  }
   if (!currentUser) return null;
 
   const shouldHidePanel = windowWidth < 899 && pathname !== "/v";
 
   if (shouldHidePanel) return null;
+
+  if (!conversations && shouldHidePanel) {
+    return <LeftPanelFallback />;
+  }
 
   return (
     <div className={`h-full w-1/4 border-r dark:border-black left-panel`}>

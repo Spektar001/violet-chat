@@ -3,7 +3,6 @@
 import GroupMembersDialog from "@/components/rightPanel/groupMembersDialog/GroupMembersDialog";
 import MessageContainer from "@/components/rightPanel/messageContainer/MessageContainer";
 import MessageInput from "@/components/rightPanel/messageInput/MessageInput";
-import RightPanelFallback from "@/components/RightPanelFallback";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IConversation } from "@/types/types";
 import ChatOptionsDropdown from "@/widgets/сhatOptionsDropdown/ChatOptionsDropdown";
@@ -28,7 +27,7 @@ const ConversationPage = ({ params }: Props) => {
   const isAdmin = conversation?.admins?.includes(currentUser!._id) ?? false;
 
   if (!conversation) {
-    return <RightPanelFallback />;
+    return null;
   }
 
   const conversationName =
